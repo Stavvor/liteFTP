@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:liteFTP"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <FontFamily x:Key="FontAwesome">pack://appliction;,,,/Fonts/#FontAwesome</FontFamily>
+
+    <system:String x:Key="FontAwesomeTrashIcon">&#xf014;</system:String>
+    <system:String x:Key="FontAwesomeEditIcon">&#xf044;</system:String>
+    <system:String x:Key="FontAwesomeRemoveIcon">&#xf00d;</system:String>
+
+    <system:String x:Key="FontAwesomeDownloadIcon">&#xf0ed;</system:String>
+    <system:String x:Key="FontAwesomeUploadIcon">&#xf093;</system:String>
+
+    <system:String x:Key="FontAwesomeCloudIcon">&#xf0c2;</system:String>
+    <system:String x:Key="FontAwesomeDriveIcon">&#xf0a0;</system:String>
+</ResourceDictionary>
