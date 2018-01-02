@@ -4,9 +4,9 @@ using System.Linq;
 using System.Windows.Input;
 
 
-namespace liteFTP
+namespace liteFTP.ViewModels
 {
-    public class DirectoryItemViewModel : BaseViewModel
+    public class DirectoryItemVM : BaseViewModel
     {
         public DirectoryItems Type { get; set; }
 
@@ -21,7 +21,7 @@ namespace liteFTP
             }
         }
 
-        public ObservableCollection<DirectoryItemViewModel> Children { get; set; }
+        public ObservableCollection<DirectoryItemVM> Children { get; set; }
 
         public bool Expandable { get { return Type != DirectoryItems.File; } }
 
@@ -41,7 +41,7 @@ namespace liteFTP
 
         public ICommand ExpandCommand { get; set; }
 
-        public DirectoryItemViewModel(string path, DirectoryItems type)
+        public DirectoryItemVM(string path, DirectoryItems type)
         {
             Path = path;
             Type = type;
@@ -57,14 +57,14 @@ namespace liteFTP
                 return;
 
             var children = DirectoryManager.GetAllItems(Path);
-            Children = new ObservableCollection<DirectoryItemViewModel>(
-                                children.Select(content => new DirectoryItemViewModel(content.Path, content.Type)));
+            Children = new ObservableCollection<DirectoryItemVM>(
+                                children.Select(content => new DirectoryItemVM(content.Path, content.Type)));
         }
 
 
         private void ClearChildren()
         {
-            Children = new ObservableCollection<DirectoryItemViewModel>();
+            Children = new ObservableCollection<DirectoryItemVM>();
 
             if (Type != DirectoryItems.File)
                 Children.Add(null);

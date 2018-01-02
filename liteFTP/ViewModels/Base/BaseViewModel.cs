@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 
 
-namespace liteFTP
+namespace liteFTP.ViewModels
 {
 
     public class BaseViewModel : INotifyPropertyChanged

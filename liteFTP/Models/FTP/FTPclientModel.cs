@@ -1,4 +1,5 @@
-﻿using System;
+﻿using liteFTP.ViewModels;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -17,7 +18,7 @@ namespace liteFTP.Models
         private const string ftp = "ftp://";
         private string uri;
 
-        private string currentDirectory = null;
+        private string currentDirectory = null; //TODO
 
         public FTPclientModel(string ser, string usr, string pass)
         {
@@ -26,6 +27,17 @@ namespace liteFTP.Models
             password = pass;
 
             credentials = new NetworkCredential(userName, password);
+
+            uri = $"{ftp}{server}";
+        }
+
+        public FTPclientModel(FTPcredentialsVM FTPcredentials)
+        {
+            server = FTPcredentials.ServerName;
+            userName = FTPcredentials.Username;
+            password = FTPcredentials.Password;
+
+            credentials = FTPcredentials.credentials;
 
             uri = $"{ftp}{server}";
         }
@@ -125,6 +137,32 @@ namespace liteFTP.Models
             FtpWebResponse response = Response(request);
             Console.WriteLine("Delete status: {0}", response.StatusDescription);
             response.Close();
+        }
+
+        public bool AuthorizeFTPConnection()
+        {
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
+            request.Credentials = new NetworkCredential(userName, password);
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            request.UsePassive = true;
+            request.UseBinary = true;
+            request.KeepAlive = false;
+            try
+            {
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                return true;
+            }
+            catch (WebException e)
+            {
+                if (e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         private FtpWebRequest Request(string requestPath, string method)

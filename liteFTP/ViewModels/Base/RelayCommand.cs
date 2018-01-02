@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace liteFTP
+namespace liteFTP.ViewModels
 {
     public class RelayCommand : ICommand
     {

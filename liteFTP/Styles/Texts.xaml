@@ -1,5 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:liteFTP.Styles">
+                    xmlns:local="clr-namespace:liteFTP.Styles"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--Authorization-->
+    <system:String x:Key="ServerInputBlock">Server</system:String>
+    <system:String x:Key="UserNameInputBlock">User name</system:String>
+    <system:String x:Key="PasswordInputBlock">Password</system:String>
     
 </ResourceDictionary>

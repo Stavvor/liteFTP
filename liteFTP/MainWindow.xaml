@@ -5,46 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:liteFTP"
         mc:Ignorable="d"
-        Title="liteFTP" Height="900" Width="1700">
+        Title="liteFTP" Height="800" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="4*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Padding="2">
-            <StackPanel Orientation="Horizontal" Grid.Column="0"  >
-                <Button Content="Button1"/>
-                <Button Content="Button2" Margin="10 0 0 0"/>
 
-            </StackPanel>
-        </Border>
-           
+        <StackPanel Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+            <local:AuthorizationControl DataContext="{Binding Authorization}"/>
+        </StackPanel>
+        
 
-       
-        <!--<TreeView x:Name="FolderView" ItemsSource="{Binding Items}">
 
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                </Style>
-            </TreeView.ItemContainerStyle>
 
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
 
-        </TreeView>-->
+
+
+
+
+
+
+
     </Grid>
-
 </Window>
