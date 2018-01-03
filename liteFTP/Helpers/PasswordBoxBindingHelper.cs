@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security;
 using System.Windows;
 using System.Windows.Controls;
+using liteFTP.Helpers;
 
 namespace liteFTP
 {
@@ -39,11 +35,8 @@ namespace liteFTP
                 box.Password = newPassword;
             }
 
-            Password = new SecureString();
-            foreach (char c in (string)e.NewValue)
-            {
-                Password.AppendChar(c);
-            }
+            string unsecure = (string)e.NewValue;
+            Password=unsecure.ToSecureString();
 
             box.PasswordChanged += HandlePasswordChanged;
         }

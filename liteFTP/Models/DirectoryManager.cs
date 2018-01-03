@@ -9,7 +9,7 @@ namespace liteFTP.Models
 
         public static List<DirectoryItemModel> GetDrives()
         {
-            return Directory.GetLogicalDrives().Select(drive => new DirectoryItemModel(DirectoryItems.Drive, drive, "C" )).ToList(); //TODO extract drive name from path
+            return Directory.GetLogicalDrives().Select(drive => new DirectoryItemModel(DirectoryItems.Drive, drive)).ToList(); //TODO extract drive name from path
         }
 
         public static List<DirectoryItemModel> GetAllItems(string path)
@@ -23,7 +23,7 @@ namespace liteFTP.Models
                 if (directories.Length > 0)
                 {
                     items.AddRange(directories.Select(directory => new DirectoryItemModel(DirectoryItems.Folder, directory, File.GetCreationTime(directory),
-                       File.GetLastWriteTime(directory), GetNameFromPath(directory)
+                       File.GetLastWriteTime(directory)
                        )));
                 }
                    
@@ -37,7 +37,7 @@ namespace liteFTP.Models
                 if (files.Length > 0)
                 {
                     items.AddRange(files.Select(file => new DirectoryItemModel(DirectoryItems.File, file, File.GetCreationTime(file),
-                       File.GetLastWriteTime(file), GetNameFromPath(file)
+                       File.GetLastWriteTime(file)
                        )));
                 }
 

@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace liteFTP.ViewModels
+﻿namespace liteFTP.ViewModels
 {
 
     public class MainWindowVM : BaseViewModel
     {
         public AuthorizationControlVM Authorization { get; }
 
-        public DirectoryVM Directory { get; }
+        public LocalExplorerControlVM LocalExplorer { get; }
+        public RemoteExplorerControlVM RemoteExplorer { get; }
 
         //TODO cards
         public MainWindowVM()
         {
             Authorization = new AuthorizationControlVM();
-            Directory = new DirectoryVM();        
+
+            LocalExplorer = new LocalExplorerControlVM();
+            RemoteExplorer = new RemoteExplorerControlVM(); 
         }
     }
 }

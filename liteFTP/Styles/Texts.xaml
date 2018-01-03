@@ -7,5 +7,8 @@
     <system:String x:Key="ServerInputBlock">Server</system:String>
     <system:String x:Key="UserNameInputBlock">User name</system:String>
     <system:String x:Key="PasswordInputBlock">Password</system:String>
+
+    <system:String x:Key="LocalAdressBlock">Local adress:</system:String>
+    <system:String x:Key="RemoteAdressBlock">Remote adress:</system:String>
     
 </ResourceDictionary>

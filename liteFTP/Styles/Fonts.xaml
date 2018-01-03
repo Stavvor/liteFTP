@@ -13,5 +13,10 @@
     <system:String x:Key="FontAwesomeUploadIcon">&#xf093;</system:String>
 
     <system:String x:Key="FontAwesomeCloudIcon">&#xf0c2;</system:String>
+    
     <system:String x:Key="FontAwesomeDriveIcon">&#xf0a0;</system:String>
+    <system:String x:Key="FontAwesomeFileIcon">&#xf016;</system:String>
+
+    <system:String x:Key="FontAwesomeFolderIcon">&#xf114;</system:String>
+    <system:String x:Key="FontAwesomeOpenFolderIcon">&#xf115;</system:String>
 </ResourceDictionary>

@@ -68,21 +68,40 @@
     <Compile Include="Controls\AuthorizationControl.xaml.cs">
       <DependentUpon>AuthorizationControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Explorer\LocalExplorerControl.xaml.cs">
+      <DependentUpon>LocalExplorerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Explorer\RemoteExplorerControl.xaml.cs">
+      <DependentUpon>RemoteExplorerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Enums\DirectoryItems.cs" />
     <Compile Include="Helpers\ExtensionMethods\SecureStringHelper.cs" />
+    <Compile Include="Helpers\ExtensionMethods\StringHelper.cs" />
     <Compile Include="Helpers\PasswordBoxBindingHelper.cs" />
+    <Compile Include="Helpers\ResourcesDictionaryQuerry.cs" />
     <Compile Include="Interfaces\IPassword.cs" />
     <Compile Include="Models\DirectoryManager.cs" />
     <Compile Include="Models\Directory\DirectoryItemModel.cs" />
     <Compile Include="Models\FTP\FTPclientModel.cs" />
+    <Compile Include="ValueConverters\Base\BaseValueConverter.cs" />
+    <Compile Include="ValueConverters\DirectoryItemToIconConverter.cs" />
     <Compile Include="ViewModels\Authorization\AuthorizationControlVM.cs" />
     <Compile Include="ViewModels\Authorization\FTPcredentialsVM.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Directory\DirectoryItemVM.cs" />
-    <Compile Include="ViewModels\Directory\DirectoryVM.cs" />
+    <Compile Include="ViewModels\Directory\LocalExplorerControlVM.cs" />
+    <Compile Include="ViewModels\Directory\RemoteExplorerControlVM.cs" />
     <Compile Include="ViewModels\MainWindow\MainWindowVM.cs" />
     <Page Include="Controls\AuthorizationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Explorer\LocalExplorerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Explorer\RemoteExplorerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

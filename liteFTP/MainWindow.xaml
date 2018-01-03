@@ -5,32 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:liteFTP"
         mc:Ignorable="d"
-        Title="liteFTP" Height="800" Width="1200">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        Title="liteFTP"
+        Height="800"
+        Width="1000"
+        >
+    <Border Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
 
 
-        <StackPanel Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
-            <local:AuthorizationControl DataContext="{Binding Authorization}"/>
-        </StackPanel>
-        
+            <StackPanel Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                <local:AuthorizationControl DataContext="{Binding Authorization}"/>
+            </StackPanel>
 
+            <StackPanel Margin="5" Grid.Row="1" Grid.Column="0">
+                <local:LocalExplorerControl DataContext="{Binding LocalExplorer}"/>
+            </StackPanel>
 
+            <StackPanel Margin="5" Grid.Row="1" Grid.Column="1">
+                <local:RemoteExplorerControl DataContext="{Binding RemoteExplorer}"/>
+            </StackPanel>
 
-
-
-
-
-
-
-
-
-    </Grid>
+        </Grid>
+    </Border>
 </Window>

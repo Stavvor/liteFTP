@@ -19,7 +19,7 @@ namespace liteFTP.Models
         private const string ftp = "ftp://";
         private string uri;
 
-        private string currentDirectory = null; //TODO
+        public string CurrentDirectory { get { return "test"; } } //TODO private variable with current path for displaying in local/remote explorer
 
         public FTPclientModel(string ser, string usr, SecureString pass)
         {
