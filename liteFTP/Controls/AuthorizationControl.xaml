@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:liteFTP"
              mc:Ignorable="d" >
-    
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
+         
+
+    <StackPanel Orientation="Horizontal" Grid.Row="0">
             <TextBlock x:Name="ServerNameBlock"
                            Text="{StaticResource ServerInputBlock}"
                            FontWeight="DemiBold"
@@ -32,8 +33,10 @@
                            FontWeight="DemiBold"
                            Margin="5 0 0 0"
                            />
-            <TextBox x:Name="PasswordBox"
-                           Text="{Binding PasswordInput}"
+            <PasswordBox x:Name="PasswordBox"
+                           local:PasswordBoxBindingHelper.BindPassword="true"  
+                           local:PasswordBoxBindingHelper.BoundPassword="{Binding Path=Password, 
+                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            Width="100"
                            Margin="5 0 5 0"
                            />

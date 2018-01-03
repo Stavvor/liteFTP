@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
+using System.Security;
+
 
 namespace liteFTP.ViewModels
 {
-    public class FTPcredentialsVM
+    public class FTPcredentialsVM : BaseViewModel
     {
         public string ServerName{ get; set; }
         public string Username{ get; set; }
-        public string Password { get; set; }
+        public SecureString Password { get; set; }
 
         public NetworkCredential credentials;
 
-        public FTPcredentialsVM(string servername, string username, string password)
+        public FTPcredentialsVM(string servername, string username, SecureString password)
         {
             ServerName = servername;
             Username = username;

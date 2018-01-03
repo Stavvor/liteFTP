@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Security;
 using System.Text;
 
 
@@ -11,7 +12,7 @@ namespace liteFTP.Models
     {
         private string server;
         private string userName;
-        private string password;
+        private SecureString password;
         private int bufferSize = 1024;
 
         private NetworkCredential credentials;
@@ -20,7 +21,7 @@ namespace liteFTP.Models
 
         private string currentDirectory = null; //TODO
 
-        public FTPclientModel(string ser, string usr, string pass)
+        public FTPclientModel(string ser, string usr, SecureString pass)
         {
             server = ser;
             userName = usr;

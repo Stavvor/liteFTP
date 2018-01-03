@@ -1,11 +1,10 @@
 ﻿using liteFTP.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Windows.Input;
+using liteFTP.Helpers;
 
 namespace liteFTP.ViewModels
 {
@@ -15,7 +14,7 @@ namespace liteFTP.ViewModels
 
         public string UserNameInput { get; set; }
 
-        public string PasswordInput { get; set; }
+        public SecureString PasswordInput { get { return PasswordBoxBindingHelper.Password; } }
 
         public ObservableCollection<FTPcredentialsVM> AuthorizedCredentials { get; set; }
 
@@ -30,7 +29,6 @@ namespace liteFTP.ViewModels
         {
             ServerNameInput = "rhdhdfhfdggsd.cba.pl";
             UserNameInput = "test@rhdhdfhfdggsd.cba.pl";
-            PasswordInput = "Test123";
 
             AuthorizedCredentials = new ObservableCollection<FTPcredentialsVM>();
 
@@ -39,7 +37,9 @@ namespace liteFTP.ViewModels
 
         private void CreateCredentials()
         {
-            if (String.IsNullOrEmpty(ServerNameInput) || String.IsNullOrEmpty(UserNameInput) || String.IsNullOrEmpty(PasswordInput))
+            var readablePass = PasswordInput.ToStandardString();
+
+            if (String.IsNullOrEmpty(ServerNameInput) || String.IsNullOrEmpty(UserNameInput) || String.IsNullOrEmpty(readablePass))
                 return;
                 //TODO messagebox
 
@@ -54,7 +54,7 @@ namespace liteFTP.ViewModels
             //TODO IoC container
             ClientModel = new FTPclientModel(UnauthorizedCredentials);
 
-            //ClientModel.FtpDownloadFile("test.txt", "C:\\Users\\Stavor\\Documents\\Visual Studio 2017\\Projects\\liteFTP\\liteFTP\\bin\\Debug\\test.txt");
+            ClientModel.FtpDownloadFile("test.txt", "C:\\Users\\Stavor\\Documents\\Visual Studio 2017\\Projects\\liteFTP\\liteFTP\\bin\\Debug\\test.txt");
 
             return ClientModel.AuthorizeFTPConnection();
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace liteFTP.ViewModels
 {
 
-    public class MainWindowVM
+    public class MainWindowVM : BaseViewModel
     {
         public AuthorizationControlVM Authorization { get; }
 
