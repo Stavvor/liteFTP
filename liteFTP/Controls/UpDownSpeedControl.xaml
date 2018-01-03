@@ -12,13 +12,12 @@
                            Margin="0 0 5 0"
                        />
                 <TextBlock Text="{StaticResource UpDownSpeed}"
-                           Margin="0 0 3 0"
+                           Margin="0 0 5 0"
                        />
-                <Button Content="{StaticResource FontAwesomeDownloadIcon}"
-                    Margin="0 -1 0 0"
-                    Style="{StaticResource FAIconButton}"
-                    Width="20"
-                    />
+                <TextBlock FontFamily="{StaticResource FontAwesome}"
+                FontSize="19"
+                Text="{StaticResource FontAwesomeDownloadIcon}" />
+
 
             </StackPanel>
 
@@ -27,14 +26,11 @@
                            Margin="0 0 5 0"
                        />
             <TextBlock Text="{StaticResource UpDownSpeed}"
-                       Margin="0 0 3 0"
+                       Margin="0 0 5 0"
                        />
-            <Button Content="{StaticResource FontAwesomeUploadIcon}"
-                    Margin="0 -2 0 0"
-                    Style="{StaticResource FAIconButton}"
-                    Width="20"
-                    
-                    />
+            <TextBlock FontFamily="{StaticResource FontAwesome}"
+            FontSize="19"
+            Text="{StaticResource FontAwesomeUploadIcon}" />
             </StackPanel>
         </StackPanel>
     </Grid>

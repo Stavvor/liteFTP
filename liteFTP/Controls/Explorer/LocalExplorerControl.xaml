@@ -37,15 +37,26 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
-                        <!--<Image Width="20" Margin="3" 
-                                        Source="{Binding Type,
-                                            Converter={x:Static val:DirectoryItemToIconConverter}}" />-->
+                        <TextBlock Width="20" Margin="3" FontSize="19"
+                            Text="{Binding Type,
+                            Converter={val:DirectoryItemToIconConverter}}" />
                         <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <ListView ItemsSource="{Binding CurrentFolderItems}" Grid.Row="2"/>
+        <ListView ItemsSource="{Binding CurrentFolderItems}" Grid.Row="2">
+
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        
+                        <TextBlock Text="{Binding}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

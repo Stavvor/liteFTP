@@ -1,5 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:liteFTP.Styles">
+
+    <Color x:Key="DarkestBacground">#121212</Color>
+    <SolidColorBrush x:Key="DarestkBacgroundBrush" Color="{StaticResource DarkestPrimaryColor}"/>
+
+    <Color x:Key="DarkBacground">#282828</Color>
+    <SolidColorBrush x:Key="DarkBacgroundBrush" Color="{StaticResource DarkPrimaryColor}"/>
+
+    <Color x:Key="Grey">#535353</Color>
+    <SolidColorBrush x:Key="GreyBacgroundBrush" Color="{StaticResource GreyColor}"/>
+    
+    
+    <Color x:Key="White">#ffffff</Color>
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource WhiteColor}"/>
+    
     
 </ResourceDictionary>
