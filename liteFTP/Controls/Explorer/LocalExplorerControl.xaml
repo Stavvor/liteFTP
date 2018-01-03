@@ -7,40 +7,45 @@
              xmlns:val="clr-namespace:liteFTP.ValueConverters"
              mc:Ignorable="d">
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "*"></RowDefinition>
+            <RowDefinition Height = "200"></RowDefinition>
+            <RowDefinition Height = "400"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="ServerNameBlock"
                                Text="{StaticResource LocalAdressBlock}"
                                FontWeight="DemiBold"
                                />
 
                 <TextBox x:Name="ServerInputBox"
-                             Text="{Binding CurrentPath}"
-                             Width="500"
+                             Text="{Binding CurrentPath, Mode=TwoWay}"
+                             Width="523"
                              Margin="5 0 5 0"
                              />
                 
             </StackPanel>
-            <TreeView x:Name="FolderView" ItemsSource="{Binding Items}">
+        <TreeView x:Name="FolderView" Grid.Row="1"
+                  ItemsSource="{Binding Items}">
 
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                    </Style>
-                </TreeView.ItemContainerStyle>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
 
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <!--<Image Width="20" Margin="3" 
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image Width="20" Margin="3" 
                                         Source="{Binding Type,
                                             Converter={x:Static val:DirectoryItemToIconConverter}}" />-->
-                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
 
-            </TreeView>
-        </StackPanel>
+        <ListView ItemsSource="{Binding CurrentFolderItems}" Grid.Row="2"/>
     </Grid>
 </UserControl>

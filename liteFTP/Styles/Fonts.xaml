@@ -9,7 +9,7 @@
     <system:String x:Key="FontAwesomeEditIcon">&#xf044;</system:String>
     <system:String x:Key="FontAwesomeRemoveIcon">&#xf00d;</system:String>
 
-    <system:String x:Key="FontAwesomeDownloadIcon">&#xf0ed;</system:String>
+    <system:String x:Key="FontAwesomeDownloadIcon">&#xf019;</system:String>
     <system:String x:Key="FontAwesomeUploadIcon">&#xf093;</system:String>
 
     <system:String x:Key="FontAwesomeCloudIcon">&#xf0c2;</system:String>

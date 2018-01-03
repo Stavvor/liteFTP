@@ -36,12 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="PropertyChanged, Version=2.2.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.2.4.0\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
@@ -74,6 +68,9 @@
     <Compile Include="Controls\Explorer\RemoteExplorerControl.xaml.cs">
       <DependentUpon>RemoteExplorerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UpDownSpeedControl.xaml.cs">
+      <DependentUpon>UpDownSpeedControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Enums\DirectoryItems.cs" />
     <Compile Include="Helpers\ExtensionMethods\SecureStringHelper.cs" />
     <Compile Include="Helpers\ExtensionMethods\StringHelper.cs" />
@@ -85,10 +82,11 @@
     <Compile Include="Models\FTP\FTPclientModel.cs" />
     <Compile Include="ValueConverters\Base\BaseValueConverter.cs" />
     <Compile Include="ValueConverters\DirectoryItemToIconConverter.cs" />
-    <Compile Include="ViewModels\Authorization\AuthorizationControlVM.cs" />
-    <Compile Include="ViewModels\Authorization\FTPcredentialsVM.cs" />
+    <Compile Include="ViewModels\Controls\Authorization\AuthorizationControlVM.cs" />
+    <Compile Include="ViewModels\Controls\Authorization\FTPcredentialsVM.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
+    <Compile Include="ViewModels\Controls\UpDownSpeedControlVM.cs" />
     <Compile Include="ViewModels\Directory\DirectoryItemVM.cs" />
     <Compile Include="ViewModels\Directory\LocalExplorerControlVM.cs" />
     <Compile Include="ViewModels\Directory\RemoteExplorerControlVM.cs" />
@@ -105,6 +103,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\UpDownSpeedControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,6 +119,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +154,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\fontawesome-webfont.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

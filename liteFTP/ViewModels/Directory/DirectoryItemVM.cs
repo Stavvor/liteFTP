@@ -69,5 +69,10 @@ namespace liteFTP.ViewModels
             if (Type != DirectoryItems.File)
                 Children.Add(null);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

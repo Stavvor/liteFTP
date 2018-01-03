@@ -10,5 +10,7 @@
 
     <system:String x:Key="LocalAdressBlock">Local adress:</system:String>
     <system:String x:Key="RemoteAdressBlock">Remote adress:</system:String>
+
+    <system:String x:Key="UpDownSpeed">B/s</system:String>
     
 </ResourceDictionary>

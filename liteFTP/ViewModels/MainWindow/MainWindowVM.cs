@@ -8,13 +8,17 @@
         public LocalExplorerControlVM LocalExplorer { get; }
         public RemoteExplorerControlVM RemoteExplorer { get; }
 
+        public UpDownSpeedControlVM UpDownSpeed { get; }
+
         //TODO cards
         public MainWindowVM()
         {
             Authorization = new AuthorizationControlVM();
 
             LocalExplorer = new LocalExplorerControlVM();
-            RemoteExplorer = new RemoteExplorerControlVM(); 
+            RemoteExplorer = new RemoteExplorerControlVM();
+
+            UpDownSpeed = new UpDownSpeedControlVM();
         }
     }
 }
