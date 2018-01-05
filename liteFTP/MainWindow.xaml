@@ -8,11 +8,9 @@
         Title="liteFTP"
         Height="800"
         Width="1250"
-        Style="{StaticResource CustomWindow}"
         >
-    <Border Margin="10">    
+    <Border Margin="10">
         <Grid>
-            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

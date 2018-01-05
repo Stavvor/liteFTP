@@ -6,7 +6,9 @@ namespace liteFTP.ViewModels
 {
     public class LocalExplorerControlVM : BaseViewModel
     {
-        private string _currentPath = $"C:\\Users\\Stavor\\Documents\\Visual Studio 2017\\Projects\\liteFTP\\liteFTP\\bin\\Debug"; //TODO
+        private string _currentPath = ""; //TODO
+
+        private DirectoryItemVM _selectedItem;
 
         public string CurrentPath {
             get {
@@ -25,6 +27,8 @@ namespace liteFTP.ViewModels
         public ObservableCollection<DirectoryItemVM> Items { get; set; }
 
         public ObservableCollection<DirectoryItemVM> CurrentFolderItems { get; set; }
+
+        public DirectoryItemVM SelectedItem { get { return _selectedItem; } set { _selectedItem = value; CurrentPath = SelectedItem.Path; } }
 
         public LocalExplorerControlVM()
         { 

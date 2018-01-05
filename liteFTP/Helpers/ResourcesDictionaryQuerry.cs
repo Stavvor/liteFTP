@@ -1,4 +1,5 @@
 ﻿using System;
+using  System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace liteFTP.Helpers
 
             try
             {
-                //resource = Application.Current.FindResource(Key);
+                resource = Application.Current.FindResource(Key);
             }
             catch (Exception ex)
             {

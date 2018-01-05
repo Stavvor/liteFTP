@@ -26,11 +26,14 @@
                 
             </StackPanel>
         <TreeView x:Name="FolderView" Grid.Row="1"
-                  ItemsSource="{Binding Items}">
+                  ItemsSource="{Binding Items}"
+                  local:TreeViewHelper.SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  >
 
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding SelectedItem}" />
                 </Style>
             </TreeView.ItemContainerStyle>
 
@@ -46,13 +49,15 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <ListView ItemsSource="{Binding CurrentFolderItems}" Grid.Row="2">
-
-
+        <ListView ItemsSource="{Binding CurrentFolderItems}" 
+                  Grid.Row="2" 
+                  SelectedItem="{Binding SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        
+                        <TextBlock Width="20" Margin="3" FontSize="19"
+                                   Text="{Binding Type,
+                                   Converter={val:DirectoryItemToIconConverter}}" />
                         <TextBlock Text="{Binding}"/>
                     </StackPanel>
                 </DataTemplate>

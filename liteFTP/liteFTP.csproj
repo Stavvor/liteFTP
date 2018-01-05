@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>myIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PropertyChanged, Version=2.2.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.2.4.0\lib\net452\PropertyChanged.dll</HintPath>
@@ -76,6 +79,7 @@
     <Compile Include="Helpers\ExtensionMethods\StringHelper.cs" />
     <Compile Include="Helpers\PasswordBoxBindingHelper.cs" />
     <Compile Include="Helpers\ResourcesDictionaryQuerry.cs" />
+    <Compile Include="Helpers\TreeViewHelper.cs" />
     <Compile Include="Interfaces\IPassword.cs" />
     <Compile Include="Models\DirectoryManager.cs" />
     <Compile Include="Models\Directory\DirectoryItemModel.cs" />
@@ -173,7 +177,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="myIcon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.2.1.0\build\net452\Fody.targets" Condition="Exists('..\packages\Fody.2.2.1.0\build\net452\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
