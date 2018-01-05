@@ -8,50 +8,55 @@ using System.Windows.Controls;
 
 namespace liteFTP
 {
-    public class TreeViewHelper
+    public class TreeViewSelectedItemBehaviour
     {
-        private static Dictionary<DependencyObject, TreeViewSelectedItemBehavior> behaviors = new Dictionary<DependencyObject, TreeViewSelectedItemBehavior>();
+        // Declare our attached property, it needs to be a DependencyProperty so
+        // we can bind to it from oout ViewMode.
+        public static readonly DependencyProperty TreeViewSelectedItemProperty =
+            DependencyProperty.RegisterAttached(
+            "TreeViewSelectedItem",
+            typeof(object),
+            typeof(TreeViewSelectedItemBehaviour),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                new PropertyChangedCallback(TreeViewSelectedItemChanged)));
 
-        public static object GetSelectedItem(DependencyObject obj)
+        // We need a Get method for our new property
+        public static object GetTreeViewSelectedItem(DependencyObject dependencyObject)
         {
-            return (object)obj.GetValue(SelectedItemProperty);
+            return (object)dependencyObject.GetValue(TreeViewSelectedItemProperty);
         }
 
-        public static void SetSelectedItem(DependencyObject obj, object value)
+        // As well as a Set method for our new property
+        public static void SetTreeViewSelectedItem(
+          DependencyObject dependencyObject, object value)
         {
-            obj.SetValue(SelectedItemProperty, value);
+            dependencyObject.SetValue(TreeViewSelectedItemProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.RegisterAttached("SelectedItem", typeof(object), typeof(TreeViewHelper), new UIPropertyMetadata(null, SelectedItemChanged));
-
-        private static void SelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        // This is the handler for when our new property's value changes
+        // When our property is set to a non null value we need to add an event handler
+        // for the TreeView's SelectedItemChanged event
+        private static void TreeViewSelectedItemChanged(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs e)
         {
-            if (!(obj is TreeView))
-                return;
+            TreeView tv = dependencyObject as TreeView;
 
-            if (!behaviors.ContainsKey(obj))
-                behaviors.Add(obj, new TreeViewSelectedItemBehavior(obj as TreeView));
-
-            TreeViewSelectedItemBehavior view = behaviors[obj];
-            view.ChangeSelectedItem(e.NewValue);
-        }
-
-        private class TreeViewSelectedItemBehavior
-        {
-            TreeView view;
-            public TreeViewSelectedItemBehavior(TreeView view)
+            if (e.NewValue == null && e.OldValue != null)
             {
-                this.view = view;
-                view.SelectedItemChanged += (sender, e) => SetSelectedItem(view, e.NewValue);
+                tv.SelectedItemChanged -=
+                    new RoutedPropertyChangedEventHandler<object>(tv_SelectedItemChanged);
             }
-
-            internal void ChangeSelectedItem(object p)
+            else if (e.NewValue != null && e.OldValue == null)
             {
-                TreeViewItem item = (TreeViewItem)view.ItemContainerGenerator.ContainerFromItem(p);
-                item.IsSelected = true;
+                tv.SelectedItemChanged +=
+                    new RoutedPropertyChangedEventHandler<object>(tv_SelectedItemChanged);
             }
+        }
+
+        // When TreeView.SelectedItemChanged fires, set our new property to the value
+        static void tv_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            SetTreeViewSelectedItem((DependencyObject)sender, e.NewValue);
         }
     }
 }

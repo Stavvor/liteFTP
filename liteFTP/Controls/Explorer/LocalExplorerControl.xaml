@@ -27,7 +27,7 @@
             </StackPanel>
         <TreeView x:Name="FolderView" Grid.Row="1"
                   ItemsSource="{Binding Items}"
-                  local:TreeViewHelper.SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  
                   >
 
             <TreeView.ItemContainerStyle>
