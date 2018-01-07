@@ -24,12 +24,6 @@ namespace liteFTP
         {
             InitializeComponent();
         }
-
-        private void ListViewDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-         
-                MessageBox.Show("Double Click");
-        }
     }
 
    

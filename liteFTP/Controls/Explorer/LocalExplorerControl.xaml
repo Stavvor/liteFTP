@@ -41,6 +41,7 @@
                 </Style>
             </TreeView.ItemContainerStyle>
 
+
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
@@ -75,7 +76,6 @@
         </StackPanel>
         <ListView ItemsSource="{Binding CurrentFolderItems}" 
                   Grid.Row="3" 
-                  MouseDoubleClick="ListViewDoubleClick"
                   SelectedItem="{Binding SelectedItem}"
             >
            

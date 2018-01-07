@@ -32,11 +32,14 @@ namespace liteFTP.ViewModels
                     allItems.Select(item=> new DirectoryItemVM(item.Path, item.Type))
                     );
 
-                _folderHistory.Add(value);
-                _historyIndex++;
-               // if (Directory.Exists(value)) ;//TODO na enter
-               //ExpandTree();
+                if (!_folderHistory.Contains(value) && Directory.Exists(value))
+                {
+                    _folderHistory.Add(value);
+                    _historyIndex++;
+                }
 
+
+                ExpandTree(value);
             }
         }
 
@@ -90,8 +93,12 @@ namespace liteFTP.ViewModels
             GoToParrentFolder = new RelayCommand(ParrentFolder);
         }
 
-        private void ExpandTree()
+        private void ExpandTree(string dir)
         {
+
+            if (String.IsNullOrEmpty(CurrentPath) || !Directory.Exists(CurrentPath))
+                return;
+
             string[] path=CurrentPath.Split('\\');
             if (path.Length == 0)
                 return;
@@ -101,17 +108,18 @@ namespace liteFTP.ViewModels
 
             foreach (var step in path)
             {
-                if (currentPlace == null)
+                if (currentPlace == null && !String.IsNullOrEmpty(step))
                 {
                     var drive = $"{step}\\";
                     currentPlace = Items.Where(i => i.Name == drive).SingleOrDefault();
                 }
                     
-                else
+                else if(!String.IsNullOrEmpty(step))
                     currentPlace = currentPlace.Children.Where(i => i.Name == step).ToList().SingleOrDefault();
 
                 currentPlace.ExpandDirectory();
             }
+            CurrentPath = dir;
         }
 
         private void PrevFolder()
@@ -125,7 +133,7 @@ namespace liteFTP.ViewModels
 
         private void NextFolder()
         {
-            if (_historyIndex < _folderHistory.Count)
+            if (_historyIndex < _folderHistory.Count-1)
             {
                 CurrentPath = _folderHistory[_historyIndex + 1];
                 _historyIndex++;
@@ -134,7 +142,20 @@ namespace liteFTP.ViewModels
 
         private void ParrentFolder()
         {
-            CurrentPath = Directory.GetParent(_folderHistory[_historyIndex]).FullName;
+            if (!String.IsNullOrEmpty(CurrentPath))
+            {
+                string[] path = CurrentPath.Split('\\');
+                if (path.Length<=2 && path.Any(i=>String.IsNullOrEmpty(i)))
+                {
+                    CurrentFolderItems.Clear();
+                    DirectoryItemVM item = Items.FirstOrDefault(i => i.Name == $"{path.FirstOrDefault()}\\");
+                    item.ClearChildren();
+                }
+                var parrent = Directory.GetParent(CurrentPath);
+                if(parrent!=null)
+                    CurrentPath = parrent.FullName;
+            }
+                
         }
     }
 }

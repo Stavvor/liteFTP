@@ -62,7 +62,7 @@ namespace liteFTP.ViewModels
         }
 
 
-        private void ClearChildren()
+        public void ClearChildren()
         {
             Children = new ObservableCollection<DirectoryItemVM>();
 
