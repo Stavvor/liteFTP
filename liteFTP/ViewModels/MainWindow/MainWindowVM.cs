@@ -15,7 +15,8 @@
         {
             Authorization = new AuthorizationControlVM();
 
-            LocalExplorer = new LocalExplorerControlVM();
+            LocalExplorer= LocalExplorerControlVM.Instance;
+
             RemoteExplorer = new RemoteExplorerControlVM();
 
             UpDownSpeed = new UpDownSpeedControlVM();

@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:liteFTP"
              xmlns:val="clr-namespace:liteFTP.ValueConverters"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height = "*"></RowDefinition>
             <RowDefinition Height = "200"></RowDefinition>
+            <RowDefinition Height=" *"> </RowDefinition>
             <RowDefinition Height = "400"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
@@ -19,15 +22,16 @@
                                />
 
                 <TextBox x:Name="ServerInputBox"
-                             Text="{Binding CurrentPath, Mode=TwoWay}"
+                             Text="{Binding CurrentPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             
                              Width="523"
-                             Margin="5 0 5 0"
+                             Margin="5 0 0 0"
                              />
                 
             </StackPanel>
         <TreeView x:Name="FolderView" Grid.Row="1"
                   ItemsSource="{Binding Items}"
-                  
+                  local:MonitorItemSelectedTreeViewItemChangeAttachedProperty.Value="True"
                   >
 
             <TreeView.ItemContainerStyle>
@@ -41,21 +45,48 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Width="20" Margin="3" FontSize="19"
-                            Text="{Binding Type,
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   Text="{Binding Type,
                             Converter={val:DirectoryItemToIconConverter}}" />
                         <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    >
+            <Button Content="{StaticResource FontAwesomeArrowLeftIcon}"
+                    Width="20"
+                    Command="{Binding GoToPreviousFolder}"
+                    Style="{StaticResource FAIconButton}"
+                    />
+            <Button Content="{StaticResource FontAwesomeArrowRightIcon}"
+                    Width="20"
+                    Command="{Binding GoToNextFolder}"
+                    Style="{StaticResource FAIconButton}"
+                    />
+            <Button Content="{StaticResource FontAwesomeArrowUpIcon}"
+                    Width="20"
+                    Command="{Binding GoToParrentFolder}"
+                    Style="{StaticResource FAIconButton}"
+                    />
+        </StackPanel>
         <ListView ItemsSource="{Binding CurrentFolderItems}" 
-                  Grid.Row="2" 
-                  SelectedItem="{Binding SelectedItem}">
+                  Grid.Row="3" 
+                  MouseDoubleClick="ListViewDoubleClick"
+                  SelectedItem="{Binding SelectedItem}"
+            >
+           
+
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+               
+                        <StackPanel Orientation="Horizontal">
+                        
                         <TextBlock Width="20" Margin="3" FontSize="19"
+                                   FontFamily="{StaticResource FontAwesome}"
                                    Text="{Binding Type,
                                    Converter={val:DirectoryItemToIconConverter}}" />
                         <TextBlock Text="{Binding}"/>

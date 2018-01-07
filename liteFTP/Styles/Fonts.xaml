@@ -19,4 +19,9 @@
 
     <system:String x:Key="FontAwesomeFolderIcon">&#xf114;</system:String>
     <system:String x:Key="FontAwesomeOpenFolderIcon">&#xf115;</system:String>
+
+    <system:String x:Key="FontAwesomeArrowLeftIcon">&#xf060;</system:String>
+    <system:String x:Key="FontAwesomeArrowRightIcon">&#xf061;</system:String>
+    <system:String x:Key="FontAwesomeArrowUpIcon">&#xf062;</system:String>
+
 </ResourceDictionary>

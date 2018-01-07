@@ -62,6 +62,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AttachedProperties\BaseAttachedProperty.cs" />
+    <Compile Include="AttachedProperties\MonitorItemSelectedTreeViewItemChangeAttachedProperty.cs" />
     <Compile Include="Controls\AuthorizationControl.xaml.cs">
       <DependentUpon>AuthorizationControl.xaml</DependentUpon>
     </Compile>
@@ -79,7 +81,6 @@
     <Compile Include="Helpers\ExtensionMethods\StringHelper.cs" />
     <Compile Include="Helpers\PasswordBoxBindingHelper.cs" />
     <Compile Include="Helpers\ResourcesDictionaryQuerry.cs" />
-    <Compile Include="Helpers\TreeViewSelectedItemBehaviour.cs" />
     <Compile Include="Interfaces\IPassword.cs" />
     <Compile Include="Models\DirectoryManager.cs" />
     <Compile Include="Models\Directory\DirectoryItemModel.cs" />

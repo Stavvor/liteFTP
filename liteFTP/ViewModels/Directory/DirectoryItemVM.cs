@@ -51,7 +51,7 @@ namespace liteFTP.ViewModels
             ClearChildren();
         }
 
-        private void ExpandDirectory()
+        public void ExpandDirectory()
         {
             if (Type == DirectoryItems.File)
                 return;
