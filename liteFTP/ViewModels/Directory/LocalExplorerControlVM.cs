@@ -58,7 +58,9 @@ namespace liteFTP.ViewModels
                 {
                     try
                     {
-                        System.Diagnostics.Process.Start($"{value.Path}");
+                        _selectedItem = value;
+                        CurrentPath = _selectedItem.Path;
+                        //System.Diagnostics.Process.Start($"{value.Path}"); //TODO
                     }
                     catch(Exception ex) { }
                     
@@ -73,9 +75,13 @@ namespace liteFTP.ViewModels
 
         public static LocalExplorerControlVM Instance { get ;} = new LocalExplorerControlVM();
 
+        public FTPclientModel Ftp { get; set; }
+
         public ICommand GoToPreviousFolder { get; set; }
         public ICommand GoToNextFolder { get; set; }
         public ICommand GoToParrentFolder { get; set; }
+
+        public ICommand UploadCommand { get; set; }
 
         private LocalExplorerControlVM()
         { 
@@ -91,6 +97,9 @@ namespace liteFTP.ViewModels
             GoToPreviousFolder = new RelayCommand(PrevFolder);
             GoToNextFolder = new RelayCommand(NextFolder);
             GoToParrentFolder = new RelayCommand(ParrentFolder);
+
+            UploadCommand = new RelayCommand(UploadFile);
+
         }
 
         private void ExpandTree(string dir)
@@ -155,7 +164,13 @@ namespace liteFTP.ViewModels
                 if(parrent!=null)
                     CurrentPath = parrent.FullName;
             }
-                
+        }
+
+        private void UploadFile()
+        {
+            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+
+            Ftp.FtpUploadFile(CurrentPath);
         }
     }
 }

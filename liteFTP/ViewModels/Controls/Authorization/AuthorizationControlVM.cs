@@ -24,7 +24,10 @@ namespace liteFTP.ViewModels
         public ICommand ConnectCommand { get; set; }
         public ICommand ConnectionsHistoryCommand { get; set; } //TODO previous connections list for quick connect feature
 
-        public AuthorizationControlVM()
+
+        public static AuthorizationControlVM Instance { get; } = new AuthorizationControlVM();
+
+        private AuthorizationControlVM()
         {
             ServerNameInput = "rhdhdfhfdggsd.cba.pl";
             UserNameInput = "test@rhdhdfhfdggsd.cba.pl";

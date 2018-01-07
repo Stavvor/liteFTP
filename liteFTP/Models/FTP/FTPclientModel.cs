@@ -74,11 +74,13 @@ namespace liteFTP.Models
 
         }
 
-        public void FtpUploadFile(string fileName)
+        public void FtpUploadFile(string FilePath)
         {
-            FtpWebRequest request = Request(fileName, WebRequestMethods.Ftp.UploadFile);
+            var name=DirectoryManager.GetNameFromPath(FilePath);
 
-            StreamReader sourceStream = new StreamReader(fileName);
+            FtpWebRequest request = Request(name, WebRequestMethods.Ftp.UploadFile);
+
+            StreamReader sourceStream = new StreamReader(FilePath);
             byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
             sourceStream.Close();
             request.ContentLength = fileContents.Length;

@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:liteFTP"
         mc:Ignorable="d"
         Title="liteFTP"
-        Height="800"
-        Width="1250"
+
+        MinHeight="820"
+        MinWidth="1250"
         >
     <Border Margin="10">
         <Grid>

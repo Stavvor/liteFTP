@@ -14,6 +14,7 @@
             <RowDefinition Height = "200"></RowDefinition>
             <RowDefinition Height=" *"> </RowDefinition>
             <RowDefinition Height = "400"></RowDefinition>
+            <RowDefinition Height = "*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="ServerNameBlock"
@@ -94,5 +95,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Grid.Row="4"
+                    HorizontalAlignment="Left"
+                    >
+            <Button Content="Upload"
+                    Width="45"
+                    Command="{Binding UploadCommand}"
+            />
+        </StackPanel>
+       
     </Grid>
 </UserControl>

@@ -13,7 +13,7 @@
         //TODO cards
         public MainWindowVM()
         {
-            Authorization = new AuthorizationControlVM();
+            Authorization = AuthorizationControlVM.Instance;
 
             LocalExplorer= LocalExplorerControlVM.Instance;
 
