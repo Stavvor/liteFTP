@@ -8,11 +8,11 @@
              mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height = "*"></RowDefinition>
             <RowDefinition Height = "200"></RowDefinition>
-            <RowDefinition Height=" *"> </RowDefinition>
+            <RowDefinition Height=" *"></RowDefinition>
             <RowDefinition Height = "400"></RowDefinition>
             <RowDefinition Height = "*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -20,18 +20,35 @@
             <ColumnDefinition Width="500"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
-                <TextBlock x:Name="ServerNameBlock"
+            <TextBlock x:Name="ServerNameBlock"
                                Text="{StaticResource LocalAdressBlock}"
                                FontWeight="DemiBold"
+                               VerticalAlignment="Center"
                                />
+            <ComboBox IsEditable="True" Width="431"
+                      ItemsSource="{Binding ComboItems}"
+                      Text="{Binding ComboText, Mode=TwoWay}"
+                      IsTextSearchCaseSensitive="False"
+                      >
+                <!--<ComboBox.Triggers>
+                    <EventTrigger RoutedEvent="TextBoxBase.TextChanged">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsDropDownOpen">
+                                    <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
+                                </BooleanAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ComboBox.Triggers>-->
+            </ComboBox>
 
-                <TextBox x:Name="ServerInputBox"
+            <!--<TextBox x:Name="ServerInputBox"
                          Text="{Binding CurrentPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Width="426"
                          Margin="5 0 0 0"
-                         />
-                
-            </StackPanel>
+                         />-->
+        </StackPanel>
         <TreeView x:Name="FolderView" Grid.Row="1"
                   ItemsSource="{Binding Items}"
                   local:MonitorItemSelectedTreeViewItemChangeAttachedProperty.Value="True"
@@ -81,13 +98,13 @@
                   Grid.Row="3" 
                   SelectedItem="{Binding SelectedItem}"
             >
-           
+
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-               
-                        <StackPanel Orientation="Horizontal">
-                        
+
+                    <StackPanel Orientation="Horizontal">
+
                         <TextBlock Width="20" Margin="3" FontSize="19"
                                    FontFamily="{StaticResource FontAwesome}"
                                    Text="{Binding Type,
@@ -105,6 +122,6 @@
                     Command="{Binding UploadCommand}"
             />
         </StackPanel>
-       
+
     </Grid>
 </UserControl>

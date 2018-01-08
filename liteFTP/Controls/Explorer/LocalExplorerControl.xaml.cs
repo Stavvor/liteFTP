@@ -24,7 +24,10 @@ namespace liteFTP
         {
             InitializeComponent();
         }
-    }
 
-   
+        public void SuperHandler(object sender, RoutedEventArgs a)
+        {
+
+        }
+    }
 }

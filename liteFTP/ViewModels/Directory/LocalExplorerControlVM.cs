@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace liteFTP.ViewModels
@@ -13,6 +15,8 @@ namespace liteFTP.ViewModels
         private string _currentPath = ""; //TODO
 
         private DirectoryItemVM _selectedItem;
+
+        private string _comboText;
 
         private List<string> _folderHistory;
 
@@ -37,15 +41,40 @@ namespace liteFTP.ViewModels
                     _folderHistory.Add(value);
                     _historyIndex++;
                 }
-
-
+                ComboText = value;
                 ExpandTree(value);
+
+                List<string> myItems = new List<string>();
+
+                foreach (var item in CurrentFolderItems)
+                {
+                    myItems.Add(item.Path);
+                }
+                
+                ComboItems = CollectionViewSource.GetDefaultView(myItems.ToArray());
             }
         }
 
         public ObservableCollection<DirectoryItemVM> Items { get; set; }
 
         public ObservableCollection<DirectoryItemVM> CurrentFolderItems { get; set; }
+
+        public ICollectionView ComboItems { get; set; }
+
+        public string ComboText
+        {
+            get
+            {
+                return _comboText;
+            }
+            set
+            {
+                if(ComboItems!=null)
+                    ComboItems.Filter = item => item.ToString().ToLower().Contains(value.ToLower());
+                _comboText = value;
+                CurrentPath = value;
+            }
+        }
 
         public DirectoryItemVM SelectedItem {
             get
@@ -54,22 +83,9 @@ namespace liteFTP.ViewModels
             }
             set
             {
-                if (value.Type == DirectoryItems.File)
-                {
-                    try
-                    {
-                        _selectedItem = value;
-                        CurrentPath = _selectedItem.Path;
-                        //System.Diagnostics.Process.Start($"{value.Path}"); //TODO
-                    }
-                    catch(Exception ex) { }
-                    
-                    return;
-                }
-                   
                 _selectedItem = value;
-                CurrentPath = _selectedItem.Path;
-
+                CurrentPath = value.Path;
+                ComboText = value.Path;
             }
         }
 
@@ -100,6 +116,7 @@ namespace liteFTP.ViewModels
 
             UploadCommand = new RelayCommand(UploadFile);
 
+            
         }
 
         private void ExpandTree(string dir)
