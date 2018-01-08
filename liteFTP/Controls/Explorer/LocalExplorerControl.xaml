@@ -16,6 +16,9 @@
             <RowDefinition Height = "400"></RowDefinition>
             <RowDefinition Height = "*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="ServerNameBlock"
                                Text="{StaticResource LocalAdressBlock}"
@@ -23,11 +26,10 @@
                                />
 
                 <TextBox x:Name="ServerInputBox"
-                             Text="{Binding CurrentPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             
-                             Width="523"
-                             Margin="5 0 0 0"
-                             />
+                         Text="{Binding CurrentPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Width="426"
+                         Margin="5 0 0 0"
+                         />
                 
             </StackPanel>
         <TreeView x:Name="FolderView" Grid.Row="1"

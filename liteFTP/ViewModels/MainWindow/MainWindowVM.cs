@@ -8,6 +8,8 @@
         public LocalExplorerControlVM LocalExplorer { get; }
         public RemoteExplorerControlVM RemoteExplorer { get; }
 
+        public TransferProgressControl TransferProgress { get; set; }
+
         public UpDownSpeedControlVM UpDownSpeed { get; }
 
         //TODO cards
@@ -20,6 +22,8 @@
             RemoteExplorer = new RemoteExplorerControlVM();
 
             UpDownSpeed = new UpDownSpeedControlVM();
+
+            TransferProgress = new TransferProgressControl();
         }
     }
 }

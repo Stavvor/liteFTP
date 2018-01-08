@@ -6,9 +6,8 @@
         xmlns:local="clr-namespace:liteFTP"
         mc:Ignorable="d"
         Title="liteFTP"
-
-        MinHeight="820"
-        MinWidth="1250"
+        Height="941"
+        Width="1106"
         >
     <Border Margin="10">
         <Grid>
@@ -19,7 +18,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
 
 
@@ -31,7 +30,7 @@
                 <local:LocalExplorerControl DataContext="{Binding LocalExplorer}"/>
             </StackPanel>
 
-            <StackPanel Margin="5" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
+            <StackPanel Margin="5" Grid.Row="1" Grid.Column="1" >
                 <local:RemoteExplorerControl DataContext="{Binding RemoteExplorer}"/>
             </StackPanel>
 

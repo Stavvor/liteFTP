@@ -3,9 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:val="clr-namespace:liteFTP.ValueConverters"
              xmlns:local="clr-namespace:liteFTP"
              mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "*"></RowDefinition>
+            <RowDefinition Height = "200"></RowDefinition>
+            <RowDefinition Height=" *"></RowDefinition>
+            <RowDefinition Height = "400"></RowDefinition>
+            <RowDefinition Height = "*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="ServerNameBlock"
                            Text="{StaticResource RemoteAdressBlock}"
@@ -14,9 +25,103 @@
 
             <TextBox x:Name="ServerInputBox"
                          Text="{Binding CurrentPath}"
-                         Width="500"
-                         Margin="5 0 5 0"
+                         Width="412"
+                         Margin="5 0 0 0"
                          />
+        </StackPanel>
+        <TreeView x:Name="FolderView" Grid.Row="1"
+                  ItemsSource="{Binding Items}"
+                  local:MonitorItemSelectedTreeViewItemChangeAttachedProperty.Value="True"
+                  >
+
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding SelectedItem}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="20" Margin="3" FontSize="19"
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   Text="{Binding Type,
+                            Converter={val:DirectoryItemToIconConverter}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    >
+            <Button Content="{StaticResource FontAwesomeArrowLeftIcon}"
+                    Width="20"
+                    Command="{Binding GoToPreviousFolder}"
+                    Style="{StaticResource FAIconButton}"
+                    />
+            <Button Content="{StaticResource FontAwesomeArrowRightIcon}"
+                    Width="20"
+                    Command="{Binding GoToNextFolder}"
+                    Style="{StaticResource FAIconButton}"
+                    />
+            <Button Content="{StaticResource FontAwesomeArrowUpIcon}"
+                    Width="20"
+                    Command="{Binding GoToParrentFolder}"
+                    Style="{StaticResource FAIconButton}"
+                    />
+        </StackPanel>
+        <ListView x:Name="currentDirList"
+                  ItemsSource="{Binding Items}" 
+                  Grid.Row="3" 
+                  SelectionMode="Extended"
+                  SelectionChanged="SelectionHandler"
+                  >
+            
+
+            <ListView.ItemTemplate>
+                <DataTemplate >
+
+                    <StackPanel Orientation="Horizontal" >
+
+                        <TextBlock Width="20" Margin="3" FontSize="19"
+                                   
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   Text="{Binding Type,
+                                   Converter={val:DirectoryItemToIconConverter}}" />
+                        <TextBlock Text="{Binding}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <StackPanel Grid.Row="4"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    >
+            <Button Content="Sync"
+                    Width="65"
+                    Command="{Binding SyncCommand}"
+                    Margin="0 0 5 0"
+            />
+            <Button Content="Download"
+                    Width="65"
+                    Command="{Binding DownloadCommand}"
+                    Margin="5 0 5 0"
+            />
+            <Button Content="Edit"
+                    Width="65"
+                    Command="{Binding EditCommand}"
+                    Margin="5 0 5 0"
+            />
+            <Button Content="Delete"
+                    Width="65"
+                    Command="{Binding DeleteCommand}"
+                    Margin="5 0 5 0"
+            />
         </StackPanel>
     </Grid>
 </UserControl>

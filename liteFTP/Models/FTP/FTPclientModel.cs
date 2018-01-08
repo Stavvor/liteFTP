@@ -1,5 +1,6 @@
 ﻿using liteFTP.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Security;
@@ -17,9 +18,10 @@ namespace liteFTP.Models
 
         private NetworkCredential credentials;
         private const string ftp = "ftp://";
-        private string uri;
 
-        public string CurrentDirectory { get { return "test"; } } //TODO private variable with current path for displaying in local/remote explorer
+        public string Uri {get; set; }
+
+        //public string CurrentDirectory { get { return "test"; } } //TODO private variable with current path for displaying in local/remote explorer
 
         public FTPclientModel(string ser, string usr, SecureString pass)
         {
@@ -29,7 +31,7 @@ namespace liteFTP.Models
 
             credentials = new NetworkCredential(userName, password);
 
-            uri = $"{ftp}{server}";
+            Uri = $"{ftp}{server}";
         }
 
         public FTPclientModel(FTPcredentialsVM FTPcredentials)
@@ -40,14 +42,16 @@ namespace liteFTP.Models
 
             credentials = FTPcredentials.credentials;
 
-            uri = $"{ftp}{server}";
+            Uri = $"{ftp}{server}";
         }
 
-        public void FtpGetAllFiles(string path)
+        public List<string> FtpGetAllFiles()
         {
+            List<string> ftpItemsInfo=new List<string>();
+
             try
             {
-                FtpWebRequest request = Request(path, WebRequestMethods.Ftp.ListDirectoryDetails);
+                FtpWebRequest request = Request(null, WebRequestMethods.Ftp.ListDirectoryDetails);
                 FtpWebResponse response = Response(request);
 
                 Stream responseStream = response.GetResponseStream();
@@ -57,21 +61,22 @@ namespace liteFTP.Models
                 {
                     while (reader.Peek() != -1)
                     {
-                        string itemInfo = reader.ReadLine();
-                        Console.WriteLine(itemInfo);
-                        if (itemInfo[0] == 'd')
-                            Console.WriteLine("folder");
-                        else
-                            Console.WriteLine("plik");
+                        ftpItemsInfo.Add(reader.ReadLine());
+                      
                     }
                 }
 
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                catch (Exception ex)
+                {
+                    //TODO IoC messageBox
+                }
                 reader.Close();
                 response.Close();
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-
+            catch (Exception ex) {
+                //TODO IoC messageBox
+            }
+            return ftpItemsInfo;
         }
 
         public void FtpUploadFile(string FilePath)
@@ -144,7 +149,7 @@ namespace liteFTP.Models
 
         public bool AuthorizeFTPConnection()
         {
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Uri);
             request.Credentials = new NetworkCredential(userName, password);
             request.Method = WebRequestMethods.Ftp.ListDirectory;
             request.UsePassive = true;
@@ -170,9 +175,14 @@ namespace liteFTP.Models
 
         private FtpWebRequest Request(string requestPath, string method)
         {
-            if (requestPath != null) uri = $"{uri}/{requestPath}";
+            string requestUri = Uri;
 
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
+            if (requestPath != null)
+            {
+                requestUri = $"{Uri}/{requestPath}";
+            }
+
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(requestUri);
             request.Method = method;
             request.Credentials = credentials;
 
@@ -181,7 +191,16 @@ namespace liteFTP.Models
 
         private FtpWebResponse Response(FtpWebRequest request)
         {
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            FtpWebResponse response = null;
+            try
+            {
+                response = (FtpWebResponse)request.GetResponse();
+            }
+            catch (WebException e)
+            {
+                String status = ((FtpWebResponse)e.Response).StatusDescription;
+            }
+            
             return response;
         }
     }

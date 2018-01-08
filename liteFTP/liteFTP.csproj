@@ -73,6 +73,9 @@
     <Compile Include="Controls\Explorer\RemoteExplorerControl.xaml.cs">
       <DependentUpon>RemoteExplorerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TransferProgressControl.xaml.cs">
+      <DependentUpon>TransferProgressControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UpDownSpeedControl.xaml.cs">
       <DependentUpon>UpDownSpeedControl.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,7 @@
     <Compile Include="Models\Directory\DirectoryItemModel.cs" />
     <Compile Include="Models\FTP\FTPclientModel.cs" />
     <Compile Include="ValueConverters\Base\BaseValueConverter.cs" />
+    <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\DirectoryItemToIconConverter.cs" />
     <Compile Include="ViewModels\Controls\Authorization\AuthorizationControlVM.cs" />
     <Compile Include="ViewModels\Controls\Authorization\FTPcredentialsVM.cs" />
@@ -105,6 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Explorer\RemoteExplorerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TransferProgressControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

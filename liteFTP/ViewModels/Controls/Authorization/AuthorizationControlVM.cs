@@ -56,8 +56,6 @@ namespace liteFTP.ViewModels
             //TODO IoC container
             ClientModel = new FTPclientModel(UnauthorizedCredentials);
 
-            ClientModel.FtpDownloadFile("test.txt", "C:\\Users\\Stavor\\Documents\\Visual Studio 2017\\Projects\\liteFTP\\liteFTP\\bin\\Debug\\test.txt");
-
             return ClientModel.AuthorizeFTPConnection();
         }
     }
