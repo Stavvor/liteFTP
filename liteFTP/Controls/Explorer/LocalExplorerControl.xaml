@@ -25,10 +25,11 @@
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
                                />
-            <ComboBox IsEditable="True" Width="431"
+            <ComboBox IsEditable="True" Width="426"
                       ItemsSource="{Binding ComboItems}"
                       Text="{Binding ComboText, Mode=TwoWay}"
                       IsTextSearchCaseSensitive="False"
+                        Margin="5 0 0 0"
                       >
                 <!--<ComboBox.Triggers>
                     <EventTrigger RoutedEvent="TextBoxBase.TextChanged">

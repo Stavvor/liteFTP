@@ -26,6 +26,7 @@
             <TextBox x:Name="ServerInputBox"
                          Text="{Binding CurrentPath}"
                          Width="412"
+                         Height="22"
                          Margin="5 0 0 0"
                          />
         </StackPanel>

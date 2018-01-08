@@ -29,9 +29,6 @@ namespace liteFTP.ViewModels
 
         private AuthorizationControlVM()
         {
-            ServerNameInput = "rhdhdfhfdggsd.cba.pl";
-            UserNameInput = "test@rhdhdfhfdggsd.cba.pl";
-
             AuthorizedCredentials = new ObservableCollection<FTPcredentialsVM>();
 
             ConnectCommand = new RelayCommand(CreateCredentials);
