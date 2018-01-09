@@ -6,24 +6,25 @@
         public AuthorizationControlVM Authorization { get; }
 
         public LocalExplorerControlVM LocalExplorer { get; }
+
         public RemoteExplorerControlVM RemoteExplorer { get; }
 
-        public TransferProgressControl TransferProgress { get; set; }
+        public TransferProgressControlVM TransferProgress { get; set; }
 
-        public UpDownSpeedControlVM UpDownSpeed { get; }
+        public UpDownSpeedControlVM UpDownSpeed { get; set; }
 
         //TODO cards
         public MainWindowVM()
         {
-            Authorization = AuthorizationControlVM.Instance;
+            Authorization = AuthorizationControlVM.Instance; //TODO IoC container
 
             LocalExplorer= LocalExplorerControlVM.Instance;
 
-            RemoteExplorer = new RemoteExplorerControlVM();
+            RemoteExplorer = new RemoteExplorerControlVM(); //TODO 
 
-            UpDownSpeed = new UpDownSpeedControlVM();
+            UpDownSpeed = UpDownSpeedControlVM.Instance;
 
-            TransferProgress = new TransferProgressControl();
+            TransferProgress = TransferProgressControlVM.Instance;
         }
     }
 }

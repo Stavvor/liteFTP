@@ -5,7 +5,7 @@ using System.IO;
 using System.Net;
 using System.Security;
 using System.Text;
-
+using System.Threading.Tasks;
 
 namespace liteFTP.Models
 {
@@ -45,14 +45,14 @@ namespace liteFTP.Models
             Uri = $"{ftp}{server}";
         }
 
-        public List<string> FtpGetAllFiles()
+        public async Task<List<string>> FtpGetAllFiles()
         {
             List<string> ftpItemsInfo=new List<string>();
 
             try
             {
                 FtpWebRequest request = Request(null, WebRequestMethods.Ftp.ListDirectoryDetails);
-                FtpWebResponse response = Response(request);
+                FtpWebResponse response = await Response(request);
 
                 Stream responseStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(responseStream);
@@ -69,63 +69,74 @@ namespace liteFTP.Models
                 catch (Exception ex)
                 {
                     //TODO IoC messageBox
+                    String e = ex.ToString();
                 }
                 reader.Close();
                 response.Close();
             }
             catch (Exception ex) {
                 //TODO IoC messageBox
+                String e = ex.ToString();
             }
             return ftpItemsInfo;
         }
 
-        public void FtpUploadFile(string FilePath)
+        public async Task FtpUploadFile(string FilePath)
         {
             var name=DirectoryManager.GetNameFromPath(FilePath);
 
             FtpWebRequest request = Request(name, WebRequestMethods.Ftp.UploadFile);
 
             StreamReader sourceStream = new StreamReader(FilePath);
-            byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
+            byte[] fileContents = Encoding.UTF8.GetBytes(await sourceStream.ReadToEndAsync()); //TODO buffer
             sourceStream.Close();
             request.ContentLength = fileContents.Length;
 
             Stream requestStream = request.GetRequestStream();
-            requestStream.Write(fileContents, 0, fileContents.Length);
+            await requestStream.WriteAsync(fileContents, 0, fileContents.Length);
             requestStream.Close();
 
-            FtpWebResponse response = Response(request);
+            FtpWebResponse response = await Response(request);
 
-            Console.WriteLine("Upload File Complete, status {0}", response.StatusDescription);
+            String r = response.StatusDescription;
 
             response.Close();
         }
 
-        public void FtpDownloadFile(string ftpFileName, string localFileName)
+        public async Task FtpDownloadFile(string ftpFileName, string localFileName)
         {
             try
             {
-                FtpWebRequest request = Request(ftpFileName, WebRequestMethods.Ftp.DownloadFile);
 
-                FtpWebResponse response = Response(request);
+                FtpWebRequest request = Request(ftpFileName, WebRequestMethods.Ftp.DownloadFile);
+                FtpWebRequest sizeRequest = Request(ftpFileName, WebRequestMethods.Ftp.GetFileSize);
+
+                FtpWebResponse response = await Response(request);
 
                 Stream ftpStream = response.GetResponseStream();
 
                 FileStream localFileStream = new FileStream(localFileName, FileMode.Create);
 
+                var fileSize = sizeRequest.GetResponse().ContentLength;
                 byte[] byteBuffer = new byte[bufferSize];
-                int bytes = ftpStream.Read(byteBuffer, 0, bufferSize);
+                int bytes = await ftpStream.ReadAsync(byteBuffer, 0, bufferSize);
+
                 try
                 {
                     while (bytes > 0)
                     {
-                        localFileStream.Write(byteBuffer, 0, bytes);
-                        bytes = ftpStream.Read(byteBuffer, 0, bufferSize);
+                        
+                        var progress = (int)((float)localFileStream.Length / (float)fileSize * 100);
+                        TransferProgressControlVM.Instance.ProgressValue = progress;
+                        await localFileStream.WriteAsync(byteBuffer, 0, bytes);
+                        bytes = await ftpStream.ReadAsync(byteBuffer, 0, bufferSize);
                     }
+                    TransferProgressControlVM.Instance.ProgressValue = 0;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    //TODO IoC messageBox
+                    String e = ex.ToString();
                 }
                 localFileStream.Close();
                 ftpStream.Close();
@@ -133,21 +144,21 @@ namespace liteFTP.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                //TODO IoC messageBox
+                String e = ex.ToString();
             }
 
         }
 
-        public void FtpDeleteFile(string fileName)
+        public async Task FtpDeleteFile(string fileName)
         {
             FtpWebRequest request = Request(fileName, WebRequestMethods.Ftp.DeleteFile);
 
-            FtpWebResponse response = Response(request);
-            Console.WriteLine("Delete status: {0}", response.StatusDescription);
+            FtpWebResponse response = await Response(request);
             response.Close();
         }
 
-        public bool AuthorizeFTPConnection()
+        public async Task<bool> AuthorizeFTPConnection()
         {
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Uri);
             request.Credentials = new NetworkCredential(userName, password);
@@ -157,7 +168,7 @@ namespace liteFTP.Models
             request.KeepAlive = false;
             try
             {
-                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                FtpWebResponse response = await Response(request);
                 return true;
             }
             catch (WebException e)
@@ -185,22 +196,26 @@ namespace liteFTP.Models
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(requestUri);
             request.Method = method;
             request.Credentials = credentials;
-
+            request.UsePassive = true;
+            request.UseBinary = true;
+            request.KeepAlive = false;
             return request;
         }
 
-        private FtpWebResponse Response(FtpWebRequest request)
+        private async Task<FtpWebResponse> Response(FtpWebRequest request)
         {
             FtpWebResponse response = null;
             try
             {
-                response = (FtpWebResponse)request.GetResponse();
+                WebResponse webResponse = await request.GetResponseAsync();
+                response = (FtpWebResponse)webResponse;
             }
             catch (WebException e)
             {
+                //TODO IoC messageBox
                 String status = ((FtpWebResponse)e.Response).StatusDescription;
             }
-            
+
             return response;
         }
     }

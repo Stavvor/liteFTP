@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -114,7 +115,7 @@ namespace liteFTP.ViewModels
             GoToNextFolder = new RelayCommand(NextFolder);
             GoToParrentFolder = new RelayCommand(ParrentFolder);
 
-            UploadCommand = new RelayCommand(UploadFile);
+            UploadCommand = new RelayCommand(async () => await UploadFile());
 
             
         }
@@ -183,11 +184,11 @@ namespace liteFTP.ViewModels
             }
         }
 
-        private void UploadFile()
+        private async Task UploadFile()
         {
             Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
 
-            Ftp.FtpUploadFile(CurrentPath);
+            await Ftp.FtpUploadFile(CurrentPath);
         }
     }
 }

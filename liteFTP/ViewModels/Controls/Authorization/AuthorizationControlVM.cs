@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Security;
 using System.Windows.Input;
 using liteFTP.Helpers;
+using System.Threading.Tasks;
 
 namespace liteFTP.ViewModels
 {
@@ -29,12 +30,15 @@ namespace liteFTP.ViewModels
 
         private AuthorizationControlVM()
         {
+            ServerNameInput = "rhdhdfhfdggsd.cba.pl";
+            UserNameInput = "test@rhdhdfhfdggsd.cba.pl";
+
             AuthorizedCredentials = new ObservableCollection<FTPcredentialsVM>();
 
-            ConnectCommand = new RelayCommand(CreateCredentials);
+            ConnectCommand = new RelayCommand(async () => await CreateCredentials());
         }
 
-        private void CreateCredentials()
+        private async Task CreateCredentials()
         {
             var readablePass = PasswordInput.ToStandardString();
 
@@ -44,16 +48,16 @@ namespace liteFTP.ViewModels
 
             UnauthorizedCredentials = new FTPcredentialsVM(ServerNameInput, UserNameInput, PasswordInput);
 
-            if (Authorize())
+            if (await Authorize())
                 AuthorizedCredentials.Add(UnauthorizedCredentials);
         }
 
-        private bool Authorize()
+        private async  Task<bool> Authorize()
         {
             //TODO IoC container
             ClientModel = new FTPclientModel(UnauthorizedCredentials);
 
-            return ClientModel.AuthorizeFTPConnection();
+            return await ClientModel.AuthorizeFTPConnection();
         }
     }
 }

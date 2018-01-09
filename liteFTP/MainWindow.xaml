@@ -8,7 +8,7 @@
         Title="liteFTP"
         Height="913"
         Width="1056"
-        MinHeight="913"
+        MinHeight="963"
         MinWidth="1056"
         >
     <Border Margin="10">
@@ -21,6 +21,7 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="150"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
 
@@ -36,6 +37,10 @@
                 <local:RemoteExplorerControl DataContext="{Binding RemoteExplorer}"/>
             </StackPanel>
 
+            <StackPanel Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                <local:TransferProgressControl DataContext="{Binding TransferProgress}"/>
+            </StackPanel>
+            
             <StackPanel Margin="5" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right"
                         VerticalAlignment="Bottom">
                 <local:UpDownSpeedControl DataContext="{Binding UpDownSpeed}"/>
