@@ -8,8 +8,8 @@
              mc:Ignorable="d">
     <Grid>
         <StackPanel>
-            
-            <ListView ItemsSource="{Binding Items}" Height="100"
+
+            <ListView ItemsSource="{Binding TransferQueue}" Height="100"
             >
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -25,7 +25,5 @@
             </ListView>
             <ProgressBar Width="1000" Height="20" Value="{Binding ProgressValue}" Visibility="{Binding val:BoolToVisibilityConverter}" />
         </StackPanel>
-
-        
     </Grid>
 </UserControl>

@@ -14,8 +14,11 @@ namespace liteFTP.ViewModels
     {
         private string _currentPath;
 
+        private List<DirectoryItemVM> _selectedItems;
+
         public string CurrentPath {
-            get {
+            get
+            {
                 return _currentPath;
             }
             set
@@ -25,7 +28,17 @@ namespace liteFTP.ViewModels
         }
         public ObservableCollection<DirectoryItemVM> Items { get; set; }
 
-        public List<DirectoryItemVM> SelectedItems { get; set; }
+        public List<DirectoryItemVM> SelectedItems {
+            get
+            {
+                return _selectedItems;
+            }
+            set
+            {
+                _selectedItems = value;
+                TransferProgressControlVM.Instance.TransferQueue = new ObservableCollection<DirectoryItemVM>(value);
+            }
+        }
 
         public FTPclientModel Ftp { get; set; }
 
