@@ -29,7 +29,5 @@ namespace liteFTP.Models
             CreationDate = creationDate;
             LastModifyDate = modifyDate;
         }
-
-        //TODO override tostring
     }
 }

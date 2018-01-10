@@ -46,8 +46,9 @@ namespace liteFTP.ViewModels
         public ICommand DownloadCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand NewDirectoryCommand{ get; set; }
 
-        public RemoteExplorerControlVM()
+    public RemoteExplorerControlVM()
         {
             SelectedItems = new List<DirectoryItemVM>();
 
@@ -55,7 +56,7 @@ namespace liteFTP.ViewModels
             DownloadCommand = new RelayCommand(async () => await Download());
             EditCommand = new RelayCommand(async () => await Edit());
             DeleteCommand = new RelayCommand(async () => await Delete());
-
+            NewDirectoryCommand = new RelayCommand(async () => await NewDir());
             //TODO
 
         }
@@ -86,7 +87,7 @@ namespace liteFTP.ViewModels
         {
             Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
             CurrentPath = Ftp.Uri;
-            List<string> response= await Ftp.FtpGetAllFiles();
+            List<string> response= await Ftp.FtpGetAllFilesAsync();
             GetItemsFromResponse(response);
         }
 
@@ -98,8 +99,9 @@ namespace liteFTP.ViewModels
             var target = LocalExplorerControlVM.Instance.CurrentPath;
             foreach (var item in SelectedItems)
             {
-                await Ftp.FtpDownloadFile(item.Path, $"{target}\\{item.Name}");
+                await Ftp.FtpDownloadFilesAsync(item.Path, $"{target}\\{item.Name}");
                 LocalExplorerControlVM.Instance.CurrentFolderItems.Add(item);
+                TransferProgressControlVM.Instance.TransferQueue.Remove(item);
             }
         }
 
@@ -112,7 +114,13 @@ namespace liteFTP.ViewModels
 
             var item = SelectedItems.FirstOrDefault();
 
-            await Ftp.FtpDownloadFile(item.Path, $"{path}\\{item.Name}");
+            if (item.Type == DirectoryItems.Folder)
+            {
+                IoC.Get<IAlertService>().Show("Cant edit a directory!");
+                return;
+            }
+
+            await Ftp.FtpDownloadFilesAsync(item.Path, $"{path}\\{item.Name}");
 
             Process p = new Process();
             p.Exited += new EventHandler(ProcessEnded);
@@ -128,10 +136,21 @@ namespace liteFTP.ViewModels
 
             foreach (var item in SelectedItems)
             {
-                await Ftp.FtpDeleteFile(item.Path);
+                await Ftp.FtpDeleteFileAsync(item.Path, item.Type);
                 Items.Remove(item);
             }
 
+        }
+        
+        private async Task NewDir()
+        {
+            //TODO test
+
+            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            CurrentPath = Ftp.Uri;
+
+            await Ftp.CreateDirectorysAsync("test"); //TODO popup service for input text
+            Items.Add(new DirectoryItemVM(CurrentPath,DirectoryItems.Folder));
         }
 
         private void ProcessEnded(object sender, EventArgs e)
@@ -139,8 +158,8 @@ namespace liteFTP.ViewModels
             Process p = (Process)sender;
             var name=DirectoryManager.GetNameFromPath(p.StartInfo.FileName);
 
-            Task deleteTask = Task.Run(async () => await Ftp.FtpDeleteFile(name));
-            Task uploadTask = Task.Run(async () => await Ftp.FtpUploadFile(p.StartInfo.FileName));
+            Task deleteTask = Task.Run(async () => await Ftp.FtpDeleteFileAsync(name, DirectoryItems.File));
+            Task uploadTask = Task.Run(async () => await Ftp.FtpUploadFileAsync(p.StartInfo.FileName));
 
             File.Delete(p.StartInfo.FileName);
             p.Close();

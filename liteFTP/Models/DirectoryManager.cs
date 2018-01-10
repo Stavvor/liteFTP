@@ -9,7 +9,7 @@ namespace liteFTP.Models
 
         public static List<DirectoryItemModel> GetDrives()
         {
-            return Directory.GetLogicalDrives().Select(drive => new DirectoryItemModel(DirectoryItems.Drive, drive)).ToList(); //TODO extract drive name from path
+            return Directory.GetLogicalDrives().Select(drive => new DirectoryItemModel(DirectoryItems.Drive, drive)).ToList();
         }
 
         public static List<DirectoryItemModel> GetAllItems(string path)

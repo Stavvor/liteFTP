@@ -13,8 +13,7 @@ namespace liteFTP
 
             IoCSetup();
 
-            Current.MainWindow = new MainWindow();
-            Current.MainWindow.Show();
+
         }
 
         private void IoCSetup()

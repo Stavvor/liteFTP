@@ -188,7 +188,7 @@ namespace liteFTP.ViewModels
         {
             Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
 
-            await Ftp.FtpUploadFile(CurrentPath);
+            await Ftp.FtpUploadFileAsync(CurrentPath);
         }
     }
 }

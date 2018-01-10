@@ -23,9 +23,6 @@ namespace liteFTP.ViewModels
         public FTPclientModel ClientModel { get; set; }
 
         public ICommand ConnectCommand { get; set; }
-        public ICommand ConnectionsHistoryCommand { get; set; } //TODO previous connections list for quick connect feature
-
-
         public static AuthorizationControlVM Instance { get; } = new AuthorizationControlVM();
 
         private AuthorizationControlVM()
@@ -43,8 +40,11 @@ namespace liteFTP.ViewModels
             var readablePass = PasswordInput.ToStandardString();
 
             if (String.IsNullOrEmpty(ServerNameInput) || String.IsNullOrEmpty(UserNameInput) || String.IsNullOrEmpty(readablePass))
+            {
+                IoC.Get<IAlertService>().Show("Fill all fields!");
                 return;
-                //TODO messagebox
+            }
+
 
             UnauthorizedCredentials = new FTPcredentialsVM(ServerNameInput, UserNameInput, PasswordInput);
 
@@ -57,7 +57,7 @@ namespace liteFTP.ViewModels
             //TODO IoC container
             ClientModel = new FTPclientModel(UnauthorizedCredentials);
 
-            return await ClientModel.AuthorizeFTPConnection();
+            return await ClientModel.AuthorizeFTPConnectionsAsync();
         }
     }
 }
