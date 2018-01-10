@@ -34,7 +34,7 @@ namespace liteFTP.Models
             Uri = $"{ftp}{server}";
         }
 
-        public FTPclientModel(FTPcredentialsVM FTPcredentials) //TODO DI
+        public FTPclientModel(FTPcredentialsModel FTPcredentials) //TODO DI
         {
             server = FTPcredentials.ServerName;
             userName = FTPcredentials.Username;
@@ -125,11 +125,11 @@ namespace liteFTP.Models
                     {
                         
                         var progress = (int)((float)localFileStream.Length / (float)fileSize * 100);
-                        TransferProgressControlVM.Instance.ProgressValue = progress;
+                        IoC.Get<TransferProgressControlVM>().ProgressValue = progress;
                         await localFileStream.WriteAsync(byteBuffer, 0, bytes);
                         bytes = await ftpStream.ReadAsync(byteBuffer, 0, bufferSize);
                     }
-                    TransferProgressControlVM.Instance.ProgressValue = 0;
+                    IoC.Get<TransferProgressControlVM>().ProgressValue = 0;
                 }
                 catch (Exception ex)
                 {
@@ -168,22 +168,29 @@ namespace liteFTP.Models
 
         public async Task<bool> AuthorizeFTPConnectionsAsync()
         {
-            FtpWebRequest request = Request(null, WebRequestMethods.Ftp.ListDirectory);
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Uri);
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            request.Credentials = credentials;
+            request.UsePassive = true;
+            request.UseBinary = true;
+            request.KeepAlive = false;
 
+            
             try
             {
-                FtpWebResponse response = await ResponseAsync(request);
+                WebResponse webResponse = await request.GetResponseAsync();
+                //FtpWebResponse response = (FtpWebResponse)webResponse;
                 return true;
             }
             catch (WebException e)
             {
                 if (e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    return true;
+                    return false;
                 }
                 else
                 {
-                    return false;
+                    return true;
                 }
             }
         }

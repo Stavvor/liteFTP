@@ -20,9 +20,8 @@ namespace liteFTP.ViewModels
 
         public ObservableCollection<DirectoryItemVM> TransferQueue { get; set; }
 
-        public static TransferProgressControlVM Instance { get; } = new TransferProgressControlVM();
 
-        private TransferProgressControlVM()
+        public TransferProgressControlVM()
         {
 
         }

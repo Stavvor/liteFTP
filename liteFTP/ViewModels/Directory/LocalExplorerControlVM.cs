@@ -90,8 +90,6 @@ namespace liteFTP.ViewModels
             }
         }
 
-        public static LocalExplorerControlVM Instance { get ;} = new LocalExplorerControlVM();
-
         public FTPclientModel Ftp { get; set; }
 
         public ICommand GoToPreviousFolder { get; set; }
@@ -100,7 +98,7 @@ namespace liteFTP.ViewModels
 
         public ICommand UploadCommand { get; set; }
 
-        private LocalExplorerControlVM()
+        public LocalExplorerControlVM()
         { 
             var children = DirectoryManager.GetDrives();
 
@@ -186,7 +184,7 @@ namespace liteFTP.ViewModels
 
         private async Task UploadFile()
         {
-            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
 
             await Ftp.FtpUploadFileAsync(CurrentPath);
         }

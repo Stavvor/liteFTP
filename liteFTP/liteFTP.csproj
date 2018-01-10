@@ -97,9 +97,9 @@
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\DirectoryItemToIconConverter.cs" />
     <Compile Include="ViewModels\Controls\Authorization\AuthorizationControlVM.cs" />
-    <Compile Include="ViewModels\Controls\Authorization\FTPcredentialsVM.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
+    <Compile Include="Models\FTP\FTPcredentialsModel.cs" />
     <Compile Include="ViewModels\Controls\Transfer\TransferProgressControlVM.cs" />
     <Compile Include="ViewModels\Controls\Transfer\UpDownSpeedControlVM.cs" />
     <Compile Include="ViewModels\Directory\DirectoryItemVM.cs" />

@@ -36,7 +36,7 @@ namespace liteFTP.ViewModels
             set
             {
                 _selectedItems = value;
-                TransferProgressControlVM.Instance.TransferQueue = new ObservableCollection<DirectoryItemVM>(value);
+                IoC.Get<TransferProgressControlVM>().TransferQueue = new ObservableCollection<DirectoryItemVM>(value);
             }
         }
 
@@ -85,7 +85,7 @@ namespace liteFTP.ViewModels
 
         private async Task Sync()
         {
-            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
             CurrentPath = Ftp.Uri;
             List<string> response= await Ftp.FtpGetAllFilesAsync();
             GetItemsFromResponse(response);
@@ -93,21 +93,21 @@ namespace liteFTP.ViewModels
 
         private async Task Download()
         {
-            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
             CurrentPath = Ftp.Uri;
 
-            var target = LocalExplorerControlVM.Instance.CurrentPath;
+            var target = IoC.Get<LocalExplorerControlVM>().CurrentPath;
             foreach (var item in SelectedItems)
             {
                 await Ftp.FtpDownloadFilesAsync(item.Path, $"{target}\\{item.Name}");
-                LocalExplorerControlVM.Instance.CurrentFolderItems.Add(item);
-                TransferProgressControlVM.Instance.TransferQueue.Remove(item);
+                IoC.Get<LocalExplorerControlVM>().CurrentFolderItems.Add(item);
+                IoC.Get<TransferProgressControlVM>().TransferQueue.Remove(item);
             }
         }
 
         private async Task Edit()
         {
-            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
             CurrentPath = Ftp.Uri;
 
             var path=Path.GetTempPath();
@@ -131,7 +131,7 @@ namespace liteFTP.ViewModels
 
         private async Task Delete()
         {
-            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
             CurrentPath = Ftp.Uri;
 
             foreach (var item in SelectedItems)
@@ -146,7 +146,7 @@ namespace liteFTP.ViewModels
         {
             //TODO test
 
-            Ftp = new FTPclientModel(AuthorizationControlVM.Instance.AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
+            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
             CurrentPath = Ftp.Uri;
 
             await Ftp.CreateDirectorysAsync("test"); //TODO popup service for input text

@@ -16,21 +16,21 @@ namespace liteFTP.ViewModels
 
         public SecureString PasswordInput { get { return PasswordBoxBindingHelper.Password; } }
 
-        public ObservableCollection<FTPcredentialsVM> AuthorizedCredentials { get; set; }
+        public ObservableCollection<FTPcredentialsModel> AuthorizedCredentials { get; set; }
 
-        public FTPcredentialsVM UnauthorizedCredentials { get; set; }
+        public FTPcredentialsModel UnauthorizedCredentials { get; set; }
 
         public FTPclientModel ClientModel { get; set; }
 
         public ICommand ConnectCommand { get; set; }
-        public static AuthorizationControlVM Instance { get; } = new AuthorizationControlVM();
 
-        private AuthorizationControlVM()
+
+        public AuthorizationControlVM()
         {
             ServerNameInput = "rhdhdfhfdggsd.cba.pl";
             UserNameInput = "test@rhdhdfhfdggsd.cba.pl";
 
-            AuthorizedCredentials = new ObservableCollection<FTPcredentialsVM>();
+            AuthorizedCredentials = new ObservableCollection<FTPcredentialsModel>();
 
             ConnectCommand = new RelayCommand(async () => await CreateCredentials());
         }
@@ -46,10 +46,12 @@ namespace liteFTP.ViewModels
             }
 
 
-            UnauthorizedCredentials = new FTPcredentialsVM(ServerNameInput, UserNameInput, PasswordInput);
+            UnauthorizedCredentials = new FTPcredentialsModel(ServerNameInput, UserNameInput, PasswordInput);
 
             if (await Authorize())
                 AuthorizedCredentials.Add(UnauthorizedCredentials);
+            else
+                IoC.Get<IAlertService>().Show("Incorect credentials!");
         }
 
         private async  Task<bool> Authorize()

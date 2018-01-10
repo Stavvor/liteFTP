@@ -4,7 +4,7 @@ using System.Security;
 
 namespace liteFTP.ViewModels
 {
-    public class FTPcredentialsVM : BaseViewModel
+    public class FTPcredentialsModel
     {
         public string ServerName{ get; set; }
         public string Username{ get; set; }
@@ -12,7 +12,7 @@ namespace liteFTP.ViewModels
 
         public NetworkCredential credentials;
 
-        public FTPcredentialsVM(string servername, string username, SecureString password)
+        public FTPcredentialsModel(string servername, string username, SecureString password)
         {
             ServerName = servername;
             Username = username;

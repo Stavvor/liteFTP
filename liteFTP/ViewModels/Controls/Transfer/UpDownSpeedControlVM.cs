@@ -11,9 +11,7 @@ namespace liteFTP.ViewModels
         public uint DownloadSpeed { get; set; }
         public uint UploadSpeed { get; set; }
 
-        public static UpDownSpeedControlVM Instance { get ;} = new UpDownSpeedControlVM();
-
-        private UpDownSpeedControlVM()
+        public UpDownSpeedControlVM()
         {
             DownloadSpeed = 0;
             UploadSpeed = 0;

@@ -16,15 +16,15 @@
         //TODO cards
         public MainWindowVM()
         {
-            Authorization = AuthorizationControlVM.Instance; //TODO IoC container
+            Authorization = IoC.Get<AuthorizationControlVM>(); //TODO IoC container
 
-            LocalExplorer= LocalExplorerControlVM.Instance;
+            LocalExplorer = IoC.Get<LocalExplorerControlVM>();
 
-            RemoteExplorer = new RemoteExplorerControlVM(); //TODO 
+            RemoteExplorer = IoC.Get<RemoteExplorerControlVM>(); //TODO 
 
-            UpDownSpeed = UpDownSpeedControlVM.Instance;
+            UpDownSpeed = IoC.Get<UpDownSpeedControlVM>();
 
-            TransferProgress = TransferProgressControlVM.Instance;
+            TransferProgress = IoC.Get<TransferProgressControlVM>();
         }
     }
 }

@@ -23,7 +23,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ProgressBar Width="1000" Height="20" Value="{Binding ProgressValue}" Visibility="{Binding val:BoolToVisibilityConverter}" />
+            <ProgressBar Foreground="Black" Width="1000" Height="20" Value="{Binding ProgressValue}" Visibility="{Binding val:BoolToVisibilityConverter}" />
         </StackPanel>
     </Grid>
 </UserControl>
