@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using liteFTP.ViewModels;
+using System.Collections;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace liteFTP
 {
@@ -25,9 +17,15 @@ namespace liteFTP
             InitializeComponent();
         }
 
-        public void SuperHandler(object sender, RoutedEventArgs a)
+        private void SelectionHandler(object s, RoutedEventArgs a)
         {
+            IList items = currentDirList.SelectedItems;
+            var collection = items.Cast<DirectoryItemVM>();
 
+            var vm = (LocalExplorerControlVM)DataContext;
+            vm.SelectedItems = collection.ToList();
+            if(collection.Count()>0)
+                vm.CurrentPath = collection.FirstOrDefault().Path;
         }
     }
 }

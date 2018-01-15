@@ -98,35 +98,30 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
+
         <StackPanel Grid.Row="4"
                     HorizontalAlignment="Left"
                     Orientation="Horizontal"
                     >
-            <Button Content="Sync"
-                    Width="65"
-                    Command="{Binding SyncCommand}"
-                    Margin="0 0 5 0"
-            />
             <Button Content="Download"
                     Width="65"
                     Command="{Binding DownloadCommand}"
-                    Margin="5 0 5 0"
+                    Margin="5 5 5 0"
             />
             <Button Content="Edit"
                     Width="65"
                     Command="{Binding EditCommand}"
-                    Margin="5 0 5 0"
+                    Margin="5 5 5 0"
             />
             <Button Content="Delete"
                     Width="65"
                     Command="{Binding DeleteCommand}"
-                    Margin="5 0 5 0"
+                    Margin="5 5 5 0"
             />
             <Button Content="New Dir"
                     Width="65"
                     Command="{Binding NewDirectoryCommand}"
-                    Margin="5 0 5 0"
+                    Margin="5 5 5 0"
             />
         </StackPanel>
     </Grid>

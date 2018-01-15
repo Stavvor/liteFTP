@@ -68,13 +68,13 @@ namespace liteFTP.Models
 
                 catch (Exception ex)
                 {
-                    IoC.Get<IAlertService>().Show(ex.ToString());
+                    IoC.Get<IAlertService>().Show(ex.ToString());//debug
                 }
                 reader.Close();
                 response.Close();
             }
             catch (Exception ex) {
-                IoC.Get<IAlertService>().Show(ex.ToString());
+                IoC.Get<IAlertService>().Show(ex.ToString());//debug
             }
             return ftpItemsInfo;
         }
@@ -133,7 +133,7 @@ namespace liteFTP.Models
                 }
                 catch (Exception ex)
                 {
-                    IoC.Get<IAlertService>().Show(ex.ToString());
+                    IoC.Get<IAlertService>().Show(ex.ToString());//debug
                 }
                 localFileStream.Close();
                 ftpStream.Close();
@@ -141,7 +141,7 @@ namespace liteFTP.Models
             }
             catch (Exception ex)
             {
-                IoC.Get<IAlertService>().Show(ex.ToString());
+                IoC.Get<IAlertService>().Show(ex.ToString());//debug
             }
 
         }
@@ -223,7 +223,6 @@ namespace liteFTP.Models
             }
             catch (WebException e)
             {
-                //TODO IoC messageBox
                 String status = ((FtpWebResponse)e.Response).StatusDescription;
             }
 

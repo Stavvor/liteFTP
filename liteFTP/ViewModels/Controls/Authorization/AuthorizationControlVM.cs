@@ -5,6 +5,8 @@ using System.Security;
 using System.Windows.Input;
 using liteFTP.Helpers;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace liteFTP.ViewModels
 {
@@ -23,7 +25,6 @@ namespace liteFTP.ViewModels
         public FTPclientModel ClientModel { get; set; }
 
         public ICommand ConnectCommand { get; set; }
-
 
         public AuthorizationControlVM()
         {
@@ -45,13 +46,19 @@ namespace liteFTP.ViewModels
                 return;
             }
 
-
             UnauthorizedCredentials = new FTPcredentialsModel(ServerNameInput, UserNameInput, PasswordInput);
 
             if (await Authorize())
+            {
                 AuthorizedCredentials.Add(UnauthorizedCredentials);
+                ClientModel = new FTPclientModel(AuthorizedCredentials.LastOrDefault()); //TODO IoC container
+                List<string> response = await ClientModel.FtpGetAllFilesAsync();
+                IoC.Get<RemoteExplorerControlVM>().GetItemsFromResponse(response);
+                IoC.Get<RemoteExplorerControlVM>().CurrentPath = ClientModel.Uri;
+            }
+                
             else
-                IoC.Get<IAlertService>().Show("Incorect credentials!");
+                IoC.Get<IAlertService>().Show("Incorrect credentials!");
         }
 
         private async  Task<bool> Authorize()

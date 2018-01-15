@@ -34,7 +34,7 @@ namespace liteFTP
 
             var SelectedTreeViewItem = treeView.SelectedItem as DirectoryItemVM;
 
-            IoC.Get<LocalExplorerControlVM>().SelectedItem = SelectedTreeViewItem;
+            IoC.Get<LocalExplorerControlVM>().CurrentPath = SelectedTreeViewItem.Path;
         }
 
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,19 +12,11 @@ using System.Windows.Input;
 
 namespace liteFTP.ViewModels
 {
-    public class LocalExplorerControlVM : BaseViewModel
+    public class LocalExplorerControlVM : ExplorerVM
     {
-        private string _currentPath = ""; //TODO
-
-        private DirectoryItemVM _selectedItem;
-
         private string _comboText;
 
-        private List<string> _folderHistory;
-
-        private int _historyIndex;
-
-        public string CurrentPath {
+        public override string CurrentPath {
             get {
                 return _currentPath;
             }
@@ -32,7 +25,7 @@ namespace liteFTP.ViewModels
                 _currentPath = value;
 
                 var allItems = DirectoryManager.GetAllItems(value);
-
+                if (allItems.Count() == 0) return;
                 CurrentFolderItems = new ObservableCollection<DirectoryItemVM>(
                     allItems.Select(item=> new DirectoryItemVM(item.Path, item.Type))
                     );
@@ -56,10 +49,6 @@ namespace liteFTP.ViewModels
             }
         }
 
-        public ObservableCollection<DirectoryItemVM> Items { get; set; }
-
-        public ObservableCollection<DirectoryItemVM> CurrentFolderItems { get; set; }
-
         public ICollectionView ComboItems { get; set; }
 
         public string ComboText
@@ -77,26 +66,8 @@ namespace liteFTP.ViewModels
             }
         }
 
-        public DirectoryItemVM SelectedItem {
-            get
-            {
-                return _selectedItem;
-            }
-            set
-            {
-                _selectedItem = value;
-                CurrentPath = value.Path;
-                ComboText = value.Path;
-            }
-        }
-
-        public FTPclientModel Ftp { get; set; }
-
-        public ICommand GoToPreviousFolder { get; set; }
-        public ICommand GoToNextFolder { get; set; }
-        public ICommand GoToParrentFolder { get; set; }
-
         public ICommand UploadCommand { get; set; }
+
 
         public LocalExplorerControlVM()
         { 
@@ -114,11 +85,12 @@ namespace liteFTP.ViewModels
             GoToParrentFolder = new RelayCommand(ParrentFolder);
 
             UploadCommand = new RelayCommand(async () => await UploadFile());
+            EditCommand = new RelayCommand(EditFile);
+            DeleteCommand = new RelayCommand(DeleteFile);
 
-            
         }
 
-        private void ExpandTree(string dir)
+        protected override void ExpandTree(string dir)
         {
 
             if (String.IsNullOrEmpty(CurrentPath) || !Directory.Exists(CurrentPath))
@@ -142,51 +114,53 @@ namespace liteFTP.ViewModels
                 else if(!String.IsNullOrEmpty(step))
                     currentPlace = currentPlace.Children.Where(i => i.Name == step).ToList().SingleOrDefault();
 
-                currentPlace.ExpandDirectory();
+                if(currentPlace!=null)
+                    currentPlace.ExpandDirectory(); //TODO
             }
             CurrentPath = dir;
-        }
-
-        private void PrevFolder()
-        {
-            if (_historyIndex > 0)
-            {
-                CurrentPath = _folderHistory[_historyIndex - 1];
-                _historyIndex--;
-            }
-        }
-
-        private void NextFolder()
-        {
-            if (_historyIndex < _folderHistory.Count-1)
-            {
-                CurrentPath = _folderHistory[_historyIndex + 1];
-                _historyIndex++;
-            }
-        }
-
-        private void ParrentFolder()
-        {
-            if (!String.IsNullOrEmpty(CurrentPath))
-            {
-                string[] path = CurrentPath.Split('\\');
-                if (path.Length<=2 && path.Any(i=>String.IsNullOrEmpty(i)))
-                {
-                    CurrentFolderItems.Clear();
-                    DirectoryItemVM item = Items.FirstOrDefault(i => i.Name == $"{path.FirstOrDefault()}\\");
-                    item.ClearChildren();
-                }
-                var parrent = Directory.GetParent(CurrentPath);
-                if(parrent!=null)
-                    CurrentPath = parrent.FullName;
-            }
         }
 
         private async Task UploadFile()
         {
             Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
 
-            await Ftp.FtpUploadFileAsync(CurrentPath);
+            foreach (var item in SelectedItems)
+            {
+                await Ftp.FtpUploadFileAsync(item.Path);
+                IoC.Get<RemoteExplorerControlVM>().Items.Add(item);
+                IoC.Get<TransferProgressControlVM>().TransferQueue.Remove(item);
+            }
+
+            
+        }
+
+        private void DeleteFile()
+        {
+            var item = SelectedItems.FirstOrDefault();
+
+            if (item!=null && File.Exists(item.Path))
+            {
+                File.Delete(item.Path);
+                CurrentFolderItems.Remove(item);
+            }
+        }
+
+        private void EditFile()
+        {
+            var item = SelectedItems.FirstOrDefault();
+
+            if (item != null)
+            {
+                if (item.Type == DirectoryItems.Folder)
+                {
+                    IoC.Get<IAlertService>().Show("Cant edit a directory!");
+                    return;
+                }
+           
+                Process p = new Process();
+                p.StartInfo.FileName = item.Path;
+                p.Start();
+            }
         }
     }
 }

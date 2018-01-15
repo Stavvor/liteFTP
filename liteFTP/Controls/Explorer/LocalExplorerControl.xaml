@@ -29,7 +29,7 @@
                       ItemsSource="{Binding ComboItems}"
                       Text="{Binding ComboText, Mode=TwoWay}"
                       IsTextSearchCaseSensitive="False"
-                        Margin="5 0 0 0"
+                      Margin="5 0 0 0"
                       >
                 <!--<ComboBox.Triggers>
                     <EventTrigger RoutedEvent="TextBoxBase.TextChanged">
@@ -95,9 +95,11 @@
                     Style="{StaticResource FAIconButton}"
                     />
         </StackPanel>
-        <ListView ItemsSource="{Binding CurrentFolderItems}" 
+        <ListView x:Name="currentDirList"
+                  ItemsSource="{Binding CurrentFolderItems}" 
                   Grid.Row="3" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectionMode="Extended"
+                  SelectionChanged="SelectionHandler"
             >
 
 
@@ -117,10 +119,27 @@
         </ListView>
         <StackPanel Grid.Row="4"
                     HorizontalAlignment="Left"
+                    Orientation="Horizontal"
                     >
             <Button Content="Upload"
-                    Width="45"
+                    Width="65"
                     Command="{Binding UploadCommand}"
+                    Margin="5 5 5 0"
+            />
+            <Button Content="Edit"
+                    Width="65"
+                    Command="{Binding EditCommand}"
+                    Margin="5 5 5 0"
+            />
+            <Button Content="Delete"
+                    Width="65"
+                    Command="{Binding DeleteCommand}"
+                    Margin="5 5 5 0"
+            />
+            <Button Content="New Dir"
+                    Width="65"
+                    Command="{Binding NewDirectoryCommand}"
+                    Margin="5 5 5 0"
             />
         </StackPanel>
 

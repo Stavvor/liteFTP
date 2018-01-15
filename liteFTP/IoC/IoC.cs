@@ -35,6 +35,8 @@ namespace liteFTP
 
             Kernel.Bind<UpDownSpeedControlVM>().ToConstant(new UpDownSpeedControlVM());
 
+            Kernel.Bind<InputBoxVM>().ToConstant(new InputBoxVM());
+
     }
     }
 }
