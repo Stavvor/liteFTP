@@ -54,7 +54,7 @@ namespace liteFTP.ViewModels
         private async Task Download()
         {
             Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); 
-            CurrentPath = Ftp.Uri;
+
 
             var target = IoC.Get<LocalExplorerControlVM>().CurrentPath;
             foreach (var item in SelectedItems)
@@ -96,7 +96,7 @@ namespace liteFTP.ViewModels
         private async Task Delete()
         {
             Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault());
-            CurrentPath = Ftp.Uri;
+
             if(IoC.Get<IAlertService>().YesNo("Are you sure that you want to delete all selected item(s)!"))
             {
                 foreach (var item in SelectedItems)
@@ -125,7 +125,6 @@ namespace liteFTP.ViewModels
             if (!String.IsNullOrEmpty(FileFolderName))
             {
                 Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault());
-                CurrentPath = Ftp.Uri;
 
                 await Ftp.CreateDirectorysAsync(FileFolderName);
                 Items.Add(new DirectoryItemVM(CurrentPath, DirectoryItems.Folder));
