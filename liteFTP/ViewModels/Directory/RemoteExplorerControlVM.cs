@@ -18,7 +18,6 @@ namespace liteFTP.ViewModels
 
         public RemoteExplorerControlVM()
         {
-            SelectedItems = new List<DirectoryItemVM>();
 
             DownloadCommand = new RelayCommand(async () => await Download());
             EditCommand = new RelayCommand(async () => await Edit());
@@ -53,62 +52,70 @@ namespace liteFTP.ViewModels
 
         private async Task Download()
         {
-            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); 
-
-
             var target = IoC.Get<LocalExplorerControlVM>().CurrentPath;
-            foreach (var item in SelectedItems)
+            if (SelectedItems != null && !String.IsNullOrEmpty(target))
             {
-                await Ftp.FtpDownloadFilesAsync(item.Path, $"{target}\\{item.Name}");
-                IoC.Get<LocalExplorerControlVM>().CurrentFolderItems.Add(item);
-                IoC.Get<TransferProgressControlVM>().TransferQueue.Remove(item);
+                Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault());
+
+                foreach (var item in SelectedItems)
+                {
+                    await Ftp.FtpDownloadFilesAsync(item.Path, $"{target}\\{item.Name}");
+                    IoC.Get<LocalExplorerControlVM>().CurrentFolderItems.Add(item);
+                    IoC.Get<TransferProgressControlVM>().TransferQueue.Remove(item);
+                }
             }
         }
 
         private async Task Edit()
         {
-            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); 
-            CurrentPath = Ftp.Uri;
-
-            var path=Path.GetTempPath();
-
-            var item = SelectedItems.FirstOrDefault();
-
-            if (item != null)
+            if (SelectedItems != null)
             {
-                if (item.Type == DirectoryItems.Folder)
+                Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault());
+
+                var path = Path.GetTempPath();
+
+                var item = SelectedItems.FirstOrDefault();
+
+                if (item != null)
                 {
-                    IoC.Get<IAlertService>().Show("Cant edit a directory!");
-                    return;
+                    if (item.Type == DirectoryItems.Folder)
+                    {
+                        IoC.Get<IAlertService>().Show("Cant edit a directory!");
+                        return;
+                    }
+
+                    await Ftp.FtpDownloadFilesAsync(item.Path, $"{path}\\{item.Name}");
+
+                    Process p = new Process();
+                    p.Exited += new EventHandler(ProcessEnded);
+                    p.StartInfo.FileName = $"{path}\\{item.Name}";
+                    p.EnableRaisingEvents = true;
+                    p.Start();
                 }
-
-                await Ftp.FtpDownloadFilesAsync(item.Path, $"{path}\\{item.Name}");
-
-                Process p = new Process();
-                p.Exited += new EventHandler(ProcessEnded);
-                p.StartInfo.FileName = $"{path}\\{item.Name}";
-                p.EnableRaisingEvents = true;
-                p.Start();
             }
             
         }
 
         private async Task Delete()
         {
-            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault());
-
-            if(IoC.Get<IAlertService>().YesNo("Are you sure that you want to delete all selected item(s)!"))
+            if (SelectedItems != null)
             {
-                foreach (var item in SelectedItems)
+                Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault());
+
+                if (IoC.Get<IAlertService>().YesNo("Are you sure that you want to delete all selected item(s)!"))
                 {
-                    await Ftp.FtpDeleteFileAsync(item.Path, item.Type);
-                    Items.Remove(item);
+                    foreach (var item in SelectedItems)
+                    {
+                        await Ftp.FtpDeleteFileAsync(item.Path, item.Type);
+                        Items.Remove(item);
+                    }
                 }
             }
         }
         
         private async Task NewDir()
         {
+
             var inputBox = new InputBox();
             inputBox.Show();
 

@@ -122,44 +122,52 @@ namespace liteFTP.ViewModels
 
         private async Task UploadFile()
         {
-            Ftp = new FTPclientModel(IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault()); //TODO IoC container
-
-            foreach (var item in SelectedItems)
+            var credentials = IoC.Get<AuthorizationControlVM>().AuthorizedCredentials.FirstOrDefault();
+            if (SelectedItems != null && credentials!=null)
             {
-                await Ftp.FtpUploadFileAsync(item.Path);
-                IoC.Get<RemoteExplorerControlVM>().Items.Add(item);
-                IoC.Get<TransferProgressControlVM>().TransferQueue.Remove(item);
-            }
+                Ftp = new FTPclientModel(credentials); //TODO IoC container
 
-            
+                foreach (var item in SelectedItems)
+                {
+                    await Ftp.FtpUploadFileAsync(item.Path);
+                    IoC.Get<RemoteExplorerControlVM>().Items.Add(item);
+                    IoC.Get<TransferProgressControlVM>().TransferQueue.Remove(item);
+                }
+            }        
         }
 
         private void DeleteFile()
         {
-            var item = SelectedItems.FirstOrDefault();
-
-            if (item!=null && File.Exists(item.Path))
+            if (SelectedItems != null)
             {
-                File.Delete(item.Path);
-                CurrentFolderItems.Remove(item);
+                var item = SelectedItems.FirstOrDefault();
+
+                if (item != null && File.Exists(item.Path))
+                {
+                    File.Delete(item.Path);
+                    CurrentFolderItems.Remove(item);
+                }
             }
         }
 
         private void EditFile()
         {
-            var item = SelectedItems.FirstOrDefault();
-
-            if (item != null)
+            if (SelectedItems != null)
             {
-                if (item.Type == DirectoryItems.Folder)
+                var item = SelectedItems.FirstOrDefault();
+
+                if (item != null)
                 {
-                    IoC.Get<IAlertService>().Show("Cant edit a directory!");
-                    return;
+                    if (item.Type == DirectoryItems.Folder)
+                    {
+                        IoC.Get<IAlertService>().Show("Cant edit a directory!");
+                        return;
+                    }
+
+                    Process p = new Process();
+                    p.StartInfo.FileName = item.Path;
+                    p.Start();
                 }
-           
-                Process p = new Process();
-                p.StartInfo.FileName = item.Path;
-                p.Start();
             }
         }
     }
